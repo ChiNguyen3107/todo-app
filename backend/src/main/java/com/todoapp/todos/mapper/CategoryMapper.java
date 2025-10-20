@@ -1,6 +1,5 @@
 package com.todoapp.todos.mapper;
 
-
 import com.todoapp.todos.dto.CategoryRequest;
 import com.todoapp.todos.dto.CategoryResponse;
 import com.todoapp.todos.entity.Category;
@@ -14,7 +13,7 @@ import java.util.List;
  */
 @Mapper(componentModel = "spring")
 public interface CategoryMapper {
-    
+
     /**
      * Chuyển đổi CategoryRequest thành Category entity
      * Lưu ý: User sẽ được set trong service layer
@@ -25,7 +24,7 @@ public interface CategoryMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "user", ignore = true)
     Category toEntity(CategoryRequest request);
-    
+
     /**
      * Chuyển đổi Category entity thành CategoryResponse
      * 
@@ -33,7 +32,7 @@ public interface CategoryMapper {
      * @return CategoryResponse
      */
     CategoryResponse toResponse(Category category);
-    
+
     /**
      * Chuyển đổi danh sách Category entity thành danh sách CategoryResponse
      * 

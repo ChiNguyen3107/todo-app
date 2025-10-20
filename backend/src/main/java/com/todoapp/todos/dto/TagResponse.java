@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * DTO cho response category
+ * DTO cho response tag
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryResponse {
+public class TagResponse {
 
     private Long id;
 
@@ -22,9 +22,5 @@ public class CategoryResponse {
 
     private String color;
 
-    private Integer orderIndex;
-
     private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 }
