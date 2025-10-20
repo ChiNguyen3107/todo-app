@@ -1,0 +1,111 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: todo-db
+    environment:
+      POSTGRES_DB: tododb
+      POSTGRES_USER: todouser
+      POSTGRES_PASSWORD: todopass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U todouser -d tododb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - todo-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: todo-backend
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      DB_URL: jdbc:postgresql://db:5432/tododb
+      DB_USERNAME: todouser
+      DB_PASSWORD: todopass
+      JWT_SECRET: my-super-secret-jwt-key-for-todo-app-change-in-production-min-256-bits
+      JWT_EXP_MIN: 60
+      REFRESH_EXP_MIN: 10080
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - todo-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: todo-frontend
+    environment:
+      VITE_API_URL: http://localhost:8080
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - todo-network
+
+  # Profile: MySQL (alternative to Postgres)
+  # Run with: docker compose --profile mysql up -d
+  mysql-db:
+    image: mysql:8
+    container_name: todo-mysql
+    profiles:
+      - mysql
+    environment:
+      MYSQL_DATABASE: tododb
+      MYSQL_USER: todouser
+      MYSQL_PASSWORD: todopass
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "todouser", "-ptodopass"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - todo-network
+
+  # Profile: pgAdmin (Postgres admin UI)
+  # Run with: docker compose --profile pgadmin up -d
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: todo-pgadmin
+    profiles:
+      - pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@todo.local
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - todo-network
+
+networks:
+  todo-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mysql_data:
