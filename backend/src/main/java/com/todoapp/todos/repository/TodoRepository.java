@@ -80,7 +80,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificat
      * Find a todo by ID and user ID, only if not deleted.
      * 
      * @param id     the ID of the todo
-     * @param userId the ID of the user
+     * @param userId the ID of the user 
      * @return optional containing the todo if found, owned by user, and not deleted
      */
     Optional<Todo> findByIdAndUserIdAndDeletedAtIsNull(Long id, Long userId);
