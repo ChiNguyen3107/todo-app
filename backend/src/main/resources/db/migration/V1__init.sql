@@ -2,7 +2,7 @@
 
 -- Users table
 CREATE TABLE users (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
@@ -19,7 +19,7 @@ CREATE INDEX idx_email ON users(email);
 
 -- Refresh tokens table
 CREATE TABLE refresh_tokens (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     token VARCHAR(500) NOT NULL UNIQUE,
     user_id BIGINT NOT NULL,
     expires_at TIMESTAMP NOT NULL,
@@ -33,7 +33,7 @@ CREATE INDEX idx_user_id ON refresh_tokens(user_id);
 
 -- Categories table
 CREATE TABLE categories (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     name VARCHAR(100) NOT NULL,
     color VARCHAR(7),
@@ -50,7 +50,7 @@ CREATE INDEX idx_user_id ON categories(user_id);
 
 -- Tags table
 CREATE TABLE tags (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     name VARCHAR(50) NOT NULL,
     color VARCHAR(7),
@@ -66,7 +66,7 @@ CREATE INDEX idx_tag_user_id ON tags(user_id);
 
 -- Todos table
 CREATE TABLE todos (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT NOT NULL,
     title VARCHAR(255) NOT NULL,
     description TEXT,
@@ -106,7 +106,7 @@ CREATE TABLE todo_tags (
 
 -- Attachments table
 CREATE TABLE attachments (
-    id BIGSERIAL PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     todo_id BIGINT NOT NULL,
     file_name VARCHAR(255) NOT NULL,
     file_url VARCHAR(500) NOT NULL,
