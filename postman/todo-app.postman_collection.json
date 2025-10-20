@@ -1,0 +1,851 @@
+{
+	"info": {
+		"_postman_id": "todo-app-collection-2024",
+		"name": "Todo App - Full Stack API",
+		"description": "API Collection cho Todo App với Authentication, Users, Todos, Categories, và Tags",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "todoapp"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Auto inject access token if exists",
+					"if (pm.environment.get('access_token')) {",
+					"    pm.request.headers.add({",
+					"        key: 'Authorization',",
+					"        value: 'Bearer ' + pm.environment.get('access_token')",
+					"    });",
+					"}"
+				]
+			}
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200 || pm.response.code === 201) {",
+									"    var jsonData = pm.response.json();",
+									"    if (jsonData.access_token) {",
+									"        pm.environment.set('access_token', jsonData.access_token);",
+									"    }",
+									"    if (jsonData.refresh_token) {",
+									"        pm.environment.set('refresh_token', jsonData.refresh_token);",
+									"    }",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"newuser@example.com\",\n    \"password\": \"Password@123\",\n    \"username\": \"newuser\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						},
+						"description": "Đăng ký tài khoản mới"
+					}
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set('access_token', jsonData.access_token);",
+									"    pm.environment.set('refresh_token', jsonData.refresh_token);",
+									"    console.log('Access token saved: ' + jsonData.access_token);",
+									"    console.log('Refresh token saved: ' + jsonData.refresh_token);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin@todo.local\",\n    \"password\": \"Admin@123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "Đăng nhập và nhận JWT token"
+					}
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set('access_token', jsonData.access_token);",
+									"    pm.environment.set('refresh_token', jsonData.refresh_token);",
+									"    console.log('Tokens refreshed successfully');",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh_token\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/refresh",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"refresh"
+							]
+						},
+						"description": "Làm mới access token bằng refresh token"
+					}
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    pm.environment.unset('access_token');",
+									"    pm.environment.unset('refresh_token');",
+									"    console.log('Logged out and tokens cleared');",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Đăng xuất và vô hiệu hóa refresh token"
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						},
+						"description": "Lấy thông tin user đang đăng nhập"
+					}
+				},
+				{
+					"name": "Update Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"updatedusername\",\n    \"email\": \"updated@example.com\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						},
+						"description": "Cập nhật thông tin profile"
+					}
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"old_password\": \"OldPass@123\",\n    \"new_password\": \"NewPass@123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/me/password",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users",
+								"me",
+								"password"
+							]
+						},
+						"description": "Đổi mật khẩu"
+					}
+				}
+			]
+		},
+		{
+			"name": "Todos",
+			"item": [
+				{
+					"name": "Create Todo",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"New Todo\",\n    \"description\": \"Todo description\",\n    \"priority\": \"HIGH\",\n    \"due_date\": \"2024-12-31T23:59:59\",\n    \"category_id\": 1,\n    \"tag_ids\": [1, 2]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/todos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos"
+							]
+						},
+						"description": "Tạo todo mới"
+					}
+				},
+				{
+					"name": "Get Todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/todos?page=0&size=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Lấy danh sách todos với phân trang"
+					}
+				},
+				{
+					"name": "Get Todo by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/todos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos",
+								"1"
+							]
+						},
+						"description": "Lấy chi tiết một todo theo ID"
+					}
+				},
+				{
+					"name": "Update Todo",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Todo Title\",\n    \"description\": \"Updated description\",\n    \"priority\": \"MEDIUM\",\n    \"status\": \"IN_PROGRESS\",\n    \"due_date\": \"2024-12-31T23:59:59\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/todos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos",
+								"1"
+							]
+						},
+						"description": "Cập nhật todo"
+					}
+				},
+				{
+					"name": "Delete Todo",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/todos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos",
+								"1"
+							]
+						},
+						"description": "Xóa todo (soft delete)"
+					}
+				},
+				{
+					"name": "Search Todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/todos/search?keyword=important&status=PENDING&priority=HIGH&category_id=1&tag_ids=1,2&page=0&size=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos",
+								"search"
+							],
+							"query": [
+								{
+									"key": "keyword",
+									"value": "important"
+								},
+								{
+									"key": "status",
+									"value": "PENDING"
+								},
+								{
+									"key": "priority",
+									"value": "HIGH"
+								},
+								{
+									"key": "category_id",
+									"value": "1"
+								},
+								{
+									"key": "tag_ids",
+									"value": "1,2"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Tìm kiếm và filter todos"
+					}
+				},
+				{
+					"name": "Create Subtask",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"New Subtask\",\n    \"description\": \"Subtask description\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/todos/1/subtasks",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos",
+								"1",
+								"subtasks"
+							]
+						},
+						"description": "Tạo subtask cho todo"
+					}
+				},
+				{
+					"name": "Update Status",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"COMPLETED\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/todos/1/status",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos",
+								"1",
+								"status"
+							]
+						},
+						"description": "Cập nhật status của todo"
+					}
+				},
+				{
+					"name": "Trash Todo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/todos/1/trash",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos",
+								"1",
+								"trash"
+							]
+						},
+						"description": "Đưa todo vào thùng rác"
+					}
+				},
+				{
+					"name": "Restore Todo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/todos/1/restore",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos",
+								"1",
+								"restore"
+							]
+						},
+						"description": "Khôi phục todo từ thùng rác"
+					}
+				},
+				{
+					"name": "Get Trashed Todos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/todos/trash?page=0&size=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"todos",
+								"trash"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "20"
+								}
+							]
+						},
+						"description": "Lấy danh sách todos trong thùng rác"
+					}
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get All Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categories",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categories"
+							]
+						},
+						"description": "Lấy tất cả categories"
+					}
+				},
+				{
+					"name": "Get Category by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categories/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Lấy category theo ID"
+					}
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Category\",\n    \"color\": \"#FF5733\",\n    \"icon\": \"📁\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categories",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categories"
+							]
+						},
+						"description": "Tạo category mới"
+					}
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Category\",\n    \"color\": \"#33C3FF\",\n    \"icon\": \"📂\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categories/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Cập nhật category"
+					}
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categories/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"categories",
+								"1"
+							]
+						},
+						"description": "Xóa category"
+					}
+				}
+			]
+		},
+		{
+			"name": "Tags",
+			"item": [
+				{
+					"name": "Get All Tags",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tags",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags"
+							]
+						},
+						"description": "Lấy tất cả tags"
+					}
+				},
+				{
+					"name": "Get Tag by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tags/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"1"
+							]
+						},
+						"description": "Lấy tag theo ID"
+					}
+				},
+				{
+					"name": "Create Tag",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"New Tag\",\n    \"color\": \"#9C27B0\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tags",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags"
+							]
+						},
+						"description": "Tạo tag mới"
+					}
+				},
+				{
+					"name": "Update Tag",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Updated Tag\",\n    \"color\": \"#4CAF50\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tags/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"1"
+							]
+						},
+						"description": "Cập nhật tag"
+					}
+				},
+				{
+					"name": "Delete Tag",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/tags/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"tags",
+								"1"
+							]
+						},
+						"description": "Xóa tag"
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
+
