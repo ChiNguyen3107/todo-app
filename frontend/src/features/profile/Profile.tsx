@@ -131,9 +131,9 @@ export default function Profile() {
       setConfirmPassword('');
       setShowPasswordForm(false);
       showToast('Đổi mật khẩu thành công!', 'success');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error changing password:', error);
-      const errorMessage = error.response?.data?.message || 'Không thể đổi mật khẩu';
+      const errorMessage = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Không thể đổi mật khẩu';
       setPasswordError(errorMessage);
       showToast(errorMessage, 'error');
     } finally {

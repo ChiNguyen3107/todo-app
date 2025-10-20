@@ -128,8 +128,8 @@ class TodoServiceTest {
                 .priority(TodoPriority.MEDIUM)
                 .user(user)
                 .category(category)
-                .tags(Set.of(tag))
-                .subtasks(new ArrayList<>())
+                .tags(new HashSet<>(Set.of(tag)))
+                .subtasks(new HashSet<>())
                 .build();
 
         // Setup TodoResponse

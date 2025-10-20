@@ -45,9 +45,9 @@ export default function Login() {
 
       // Redirect to todos page
       navigate('/todos');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Login error:', error);
-      const message = error.response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.';
+      const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.';
       setApiError(message);
     } finally {
       setIsLoading(false);
