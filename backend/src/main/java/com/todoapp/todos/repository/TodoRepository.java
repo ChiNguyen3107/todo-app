@@ -13,7 +13,8 @@ import java.util.Optional;
 
 /**
  * Repository interface for Todo entity.
- * Extends JpaRepository for basic CRUD operations and JpaSpecificationExecutor for dynamic queries.
+ * Extends JpaRepository for basic CRUD operations and JpaSpecificationExecutor
+ * for dynamic queries.
  */
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificationExecutor<Todo> {
@@ -21,7 +22,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificat
     /**
      * Find all todos that haven't been deleted (soft delete) for a specific user.
      * 
-     * @param userId the ID of the user
+     * @param userId   the ID of the user
      * @param pageable pagination information
      * @return page of todos that are not deleted
      */
@@ -30,7 +31,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificat
     /**
      * Find all todos that have been deleted (in trash) for a specific user.
      * 
-     * @param userId the ID of the user
+     * @param userId   the ID of the user
      * @param pageable pagination information
      * @return page of deleted todos
      */
@@ -39,7 +40,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificat
     /**
      * Find a todo by ID and user ID to validate ownership.
      * 
-     * @param id the ID of the todo
+     * @param id     the ID of the todo
      * @param userId the ID of the user
      * @return optional containing the todo if found and owned by the user
      */
@@ -65,9 +66,10 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificat
 
     /**
      * Find all todos matching a specification with pagination.
-     * This method is inherited from JpaSpecificationExecutor and supports dynamic queries.
+     * This method is inherited from JpaSpecificationExecutor and supports dynamic
+     * queries.
      * 
-     * @param spec the specification to apply
+     * @param spec     the specification to apply
      * @param pageable pagination information
      * @return page of todos matching the specification
      */
@@ -77,7 +79,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificat
     /**
      * Find a todo by ID and user ID, only if not deleted.
      * 
-     * @param id the ID of the todo
+     * @param id     the ID of the todo
      * @param userId the ID of the user
      * @return optional containing the todo if found, owned by user, and not deleted
      */
