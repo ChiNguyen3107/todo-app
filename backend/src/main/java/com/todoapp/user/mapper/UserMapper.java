@@ -11,7 +11,7 @@ import org.mapstruct.Mapping;
  */
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    
+
     /**
      * Chuyển đổi User entity sang UserResponse DTO
      * 

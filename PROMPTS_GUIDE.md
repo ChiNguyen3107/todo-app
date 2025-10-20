@@ -122,6 +122,11 @@ Files:
 - backend/src/main/java/com/todoapp/user/mapper/UserMapper.java
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 2.2: Tạo UserService
 
 ```
@@ -553,6 +558,11 @@ npm install react-hook-form zod @hookform/resolvers
 npx tailwindcss init -p
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 7.2: Cấu hình Tailwind CSS
 
 ```
@@ -575,6 +585,11 @@ Files:
 - frontend/src/index.css
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 7.3: Tạo TypeScript Types
 
 ```
@@ -617,6 +632,11 @@ export interface Todo {
 File: frontend/src/types/index.ts
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 7.4: Tạo Axios Instance
 
 ```
@@ -633,6 +653,11 @@ Tạo axios client với interceptors:
 File: frontend/src/lib/api.ts
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 7.5: Tạo Auth Store với Zustand
 
 ```
@@ -655,6 +680,11 @@ interface AuthState {
 File: frontend/src/store/authStore.ts
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 7.6: Tạo Todo Store
 
 ```
@@ -678,6 +708,11 @@ File: frontend/src/store/todoStore.ts
 
 ## 📦 PHẦN 8: FRONTEND - AUTH FEATURES
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 8.1: Tạo Login Page
 
 ```
@@ -693,6 +728,11 @@ Tạo Login component:
 File: frontend/src/features/auth/Login.tsx
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 8.2: Tạo Register Page
 
 ```
@@ -708,6 +748,11 @@ Tạo Register component:
 File: frontend/src/features/auth/Register.tsx
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 8.3: Tạo AuthGuard Component
 
 ```
@@ -720,6 +765,11 @@ Tạo AuthGuard wrapper:
 File: frontend/src/features/auth/AuthGuard.tsx
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 8.4: Tạo Router Config
 
 ```
@@ -742,6 +792,11 @@ File: frontend/src/App.tsx
 
 ## 📦 PHẦN 9: FRONTEND - TODO FEATURES
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 9.1: Tạo TodoList Component
 
 ```
@@ -763,6 +818,11 @@ Tạo TodoList với đầy đủ tính năng:
 File: frontend/src/features/todos/TodoList.tsx
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 9.2: Tạo TodoForm Component
 
 ```
@@ -783,6 +843,11 @@ Tạo TodoForm (dùng cho cả Create và Edit):
 File: frontend/src/features/todos/TodoForm.tsx
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 9.3: Tạo TodoDetail Component
 
 ```
@@ -802,6 +867,11 @@ Tạo TodoDetail page:
 File: frontend/src/features/todos/TodoDetail.tsx
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 9.4: Tạo TodoFilter Component
 
 ```
@@ -822,6 +892,11 @@ File: frontend/src/features/todos/TodoFilter.tsx
 
 ## 📦 PHẦN 10: FRONTEND - CATEGORIES & TAGS
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 10.1: Tạo CategoryList
 
 ```
@@ -836,6 +911,11 @@ Tạo CategoryList component:
 File: frontend/src/features/categories/CategoryList.tsx
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 10.2: Tạo TagList
 
 ```
@@ -848,6 +928,11 @@ Tạo TagList component tương tự:
 File: frontend/src/features/tags/TagList.tsx
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 10.3: Tạo Profile Page
 
 ```
@@ -864,6 +949,11 @@ File: frontend/src/features/profile/Profile.tsx
 
 ## 📦 PHẦN 11: FRONTEND - UI COMPONENTS & LAYOUT
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 11.1: Tạo Layout Component
 
 ```
@@ -876,6 +966,11 @@ Tạo Layout với:
 File: frontend/src/components/Layout.tsx
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 11.2: Tạo Navbar Component
 
 ```
@@ -890,6 +985,11 @@ Tạo Navbar:
 File: frontend/src/components/Navbar.tsx
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 11.3: Tạo Reusable Components
 
 ```
@@ -906,6 +1006,11 @@ Tạo các components tái sử dụng:
 Files trong frontend/src/components/ui/
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 11.4: Tạo Frontend Dockerfile
 
 ```
@@ -935,6 +1040,11 @@ Files:
 
 ## 📦 PHẦN 12: DOCUMENTATION & SCRIPTS
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 12.1: Tạo Postman Collection
 
 ```
@@ -971,6 +1081,11 @@ Config:
 File: postman/todo-app.postman_collection.json
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 12.2: Tạo DEV_START.bat Script
 
 ```
@@ -1009,6 +1124,11 @@ echo Done! Access at http://localhost:3000
 File: scripts/DEV_START.bat
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 12.3: Cập nhật README
 
 ```
@@ -1027,6 +1147,11 @@ File: README.md
 
 ## 📦 PHẦN 13: FINAL - TESTING & DEPLOYMENT
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 13.1: Kiểm tra lỗi Backend
 
 ```
@@ -1041,6 +1166,11 @@ Kiểm tra và fix lỗi backend:
 8. Kiểm tra logs
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 13.2: Kiểm tra lỗi Frontend
 
 ```
@@ -1054,6 +1184,11 @@ Kiểm tra và fix lỗi frontend:
 7. Test all user flows
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 13.3: Test với Docker Compose
 
 ```
@@ -1067,20 +1202,7 @@ Test full stack với Docker:
 7. Test frontend -> backend -> database flow
 ```
 
-### Prompt 13.4: Commit và Push Final
 
-```
-Commit tất cả thay đổi:
-git add .
-git commit -m "- Hoan thanh backend voi tat ca controllers va services
-- Hoan thanh frontend voi React, Zustand, TailwindCSS
-- Them unit tests va integration tests
-- Them Dockerfiles va docker-compose setup
-- Them Postman collection va scripts
-- Cap nhat documentation day du"
-
-git push origin main
-```
 
 ---
 

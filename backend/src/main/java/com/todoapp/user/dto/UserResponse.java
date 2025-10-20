@@ -17,18 +17,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse {
-    
+
     private Long id;
-    
+
     private String email;
-    
+
     private String fullName;
-    
+
     private Role role;
-    
+
     private Boolean emailVerified;
-    
+
     private UserStatus status;
-    
+
     private LocalDateTime createdAt;
 }
