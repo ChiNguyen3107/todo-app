@@ -32,9 +32,9 @@ public class UserController {
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getCurrentUser() {
         log.info("API GET /api/users/me - Lấy thông tin user hiện tại");
-        
+
         UserResponse response = userService.getCurrentUser();
-        
+
         log.info("Đã trả về thông tin user: {}", response.getEmail());
         return ResponseEntity.ok(response);
     }
@@ -52,12 +52,12 @@ public class UserController {
             @Valid @RequestBody UpdateUserRequest request,
             Authentication authentication) {
         log.info("API PUT /api/users/me - Cập nhật profile user: {}", authentication.getName());
-        
+
         // Lấy user ID từ authentication
         // Trong thực tế, bạn có thể lưu userId trong JWT claims hoặc lấy từ email
         UserResponse currentUser = userService.getCurrentUser();
         UserResponse response = userService.updateProfile(currentUser.getId(), request);
-        
+
         log.info("Đã cập nhật profile user: {}", response.getEmail());
         return ResponseEntity.ok(response);
     }
@@ -75,11 +75,11 @@ public class UserController {
             @Valid @RequestBody ChangePasswordRequest request,
             Authentication authentication) {
         log.info("API PUT /api/users/me/password - Đổi mật khẩu user: {}", authentication.getName());
-        
+
         // Lấy user ID từ authentication
         UserResponse currentUser = userService.getCurrentUser();
         userService.changePassword(currentUser.getId(), request);
-        
+
         log.info("Đã đổi mật khẩu thành công cho user: {}", authentication.getName());
         return ResponseEntity.ok("Đổi mật khẩu thành công");
     }
