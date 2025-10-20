@@ -20,9 +20,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // Áp dụng rate limit cho các endpoints authentication
         registry.addInterceptor(rateLimitInterceptor)
                 .addPathPatterns(
-                    "/api/auth/register",
-                    "/api/auth/login", 
-                    "/api/auth/refresh"
-                );
+                        "/api/auth/register",
+                        "/api/auth/login",
+                        "/api/auth/refresh");
     }
 }

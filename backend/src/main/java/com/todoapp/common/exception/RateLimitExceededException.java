@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
 public class RateLimitExceededException extends RuntimeException {
-    
+
     public RateLimitExceededException() {
         super("Quá nhiều yêu cầu. Vui lòng thử lại sau.");
     }
-    
+
     public RateLimitExceededException(String message) {
         super(message);
     }
-    
+
     public RateLimitExceededException(long waitTimeSeconds) {
         super(String.format("Quá nhiều yêu cầu. Vui lòng thử lại sau %d giây.", waitTimeSeconds));
     }

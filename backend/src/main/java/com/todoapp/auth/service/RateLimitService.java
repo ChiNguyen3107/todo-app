@@ -20,13 +20,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class RateLimitService {
 
     private final Map<String, Bucket> cache = new ConcurrentHashMap<>();
-    
+
     @Value("${rate-limit.auth.capacity:10}")
     private int capacity;
-    
+
     @Value("${rate-limit.auth.refill-tokens:10}")
     private int refillTokens;
-    
+
     @Value("${rate-limit.auth.refill-duration-minutes:10}")
     private int refillDurationMinutes;
 
@@ -35,12 +35,12 @@ public class RateLimitService {
      */
     private Bucket createNewBucket() {
         Bandwidth limit = Bandwidth.builder()
-            .capacity(capacity)
-            .refillIntervally(refillTokens, Duration.ofMinutes(refillDurationMinutes))
-            .build();
+                .capacity(capacity)
+                .refillIntervally(refillTokens, Duration.ofMinutes(refillDurationMinutes))
+                .build();
         return Bucket.builder()
-            .addLimit(limit)
-            .build();
+                .addLimit(limit)
+                .build();
     }
 
     /**
@@ -58,13 +58,13 @@ public class RateLimitService {
      */
     public void checkRateLimit(String ipAddress) {
         Bucket bucket = resolveBucket(ipAddress);
-        
+
         var probe = bucket.tryConsumeAndReturnRemaining(1);
-        
+
         if (probe.isConsumed()) {
             // Token còn, request được phép
-            log.debug("Rate limit OK cho IP: {} - Tokens còn lại: {}", 
-                ipAddress, probe.getRemainingTokens());
+            log.debug("Rate limit OK cho IP: {} - Tokens còn lại: {}",
+                    ipAddress, probe.getRemainingTokens());
         } else {
             // Hết token, reject request
             long waitTime = probe.getNanosToWaitForRefill() / 1_000_000_000;

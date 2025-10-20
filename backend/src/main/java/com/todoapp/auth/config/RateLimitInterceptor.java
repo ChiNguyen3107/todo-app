@@ -22,12 +22,12 @@ public class RateLimitInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String ipAddress = getClientIpAddress(request);
-        
+
         log.debug("Kiểm tra rate limit cho IP: {} - Endpoint: {}", ipAddress, request.getRequestURI());
-        
+
         // RateLimitService sẽ throw RateLimitExceededException nếu vượt giới hạn
         rateLimitService.checkRateLimit(ipAddress);
-        
+
         return true;
     }
 
@@ -40,12 +40,12 @@ public class RateLimitInterceptor implements HandlerInterceptor {
             // X-Forwarded-For có thể chứa nhiều IP, lấy IP đầu tiên
             return xForwardedFor.split(",")[0].trim();
         }
-        
+
         String xRealIp = request.getHeader("X-Real-IP");
         if (xRealIp != null && !xRealIp.isEmpty()) {
             return xRealIp;
         }
-        
+
         return request.getRemoteAddr();
     }
 }

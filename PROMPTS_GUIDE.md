@@ -134,7 +134,11 @@ Tạo UserService với các phương thức:
 
 File: backend/src/main/java/com/todoapp/user/service/UserService.java
 ```
+Lưu ý:
 
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 2.3: Tạo UserController
 
 ```
@@ -153,6 +157,12 @@ File: backend/src/main/java/com/todoapp/user/controller/UserController.java
 
 ## 📦 PHẦN 3: BACKEND - CATEGORY MODULE
 
+
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 3.1: Tạo CategoryRepository
 
 ```
@@ -163,7 +173,11 @@ Tạo CategoryRepository extends JpaRepository<Category, Long>:
 
 File: backend/src/main/java/com/todoapp/todos/repository/CategoryRepository.java
 ```
+Lưu ý:
 
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 3.2: Tạo Category DTOs và Mapper
 
 ```
@@ -181,7 +195,11 @@ Files:
 - backend/src/main/java/com/todoapp/todos/dto/CategoryResponse.java
 - backend/src/main/java/com/todoapp/todos/mapper/CategoryMapper.java
 ```
+Lưu ý:
 
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 3.3: Tạo CategoryService và CategoryController
 
 ```
@@ -210,6 +228,12 @@ Files:
 
 ## 📦 PHẦN 4: BACKEND - TAG MODULE
 
+
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 4.1: Tạo TagRepository, DTOs, Mapper
 
 ```
@@ -226,6 +250,11 @@ Files:
 - backend/src/main/java/com/todoapp/todos/mapper/TagMapper.java
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 4.2: Tạo TagService và TagController
 
 ```
@@ -243,6 +272,11 @@ Files:
 
 ## 📦 PHẦN 5: BACKEND - TODO MODULE (Phức tạp nhất)
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 5.1: Tạo TodoRepository
 
 ```
@@ -258,6 +292,11 @@ Thêm method specification cho search/filter:
 File: backend/src/main/java/com/todoapp/todos/repository/TodoRepository.java
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 5.2: Tạo TodoSpecification
 
 ```
@@ -274,6 +313,11 @@ Tạo TodoSpecification cho filter/search:
 File: backend/src/main/java/com/todoapp/todos/specification/TodoSpecification.java
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 5.3: Tạo Todo DTOs
 
 ```
@@ -288,6 +332,11 @@ Tạo các DTOs:
 Files trong backend/src/main/java/com/todoapp/todos/dto/
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 5.4: Tạo TodoMapper
 
 ```
@@ -300,6 +349,11 @@ Tạo TodoMapper (MapStruct):
 File: backend/src/main/java/com/todoapp/todos/mapper/TodoMapper.java
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 5.5: Tạo AttachmentService
 
 ```
@@ -312,6 +366,11 @@ Tạo AttachmentService:
 File: backend/src/main/java/com/todoapp/todos/service/AttachmentService.java
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 5.6: Tạo TodoService (Phần 1 - CRUD)
 
 ```
@@ -327,6 +386,11 @@ Tạo TodoService với các method cơ bản:
 File: backend/src/main/java/com/todoapp/todos/service/TodoService.java
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 5.7: Tạo TodoService (Phần 2 - Advanced)
 
 ```
@@ -342,6 +406,11 @@ Thêm vào TodoService các method nâng cao:
 Cập nhật file: backend/src/main/java/com/todoapp/todos/service/TodoService.java
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 5.8: Tạo TodoController (Full endpoints)
 
 ```
@@ -368,6 +437,11 @@ File: backend/src/main/java/com/todoapp/todos/controller/TodoController.java
 
 ## 📦 PHẦN 6: BACKEND - TESTING & DOCKER
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 6.1: Tạo Backend Dockerfile
 
 ```
@@ -384,6 +458,11 @@ Tạo Dockerfile multi-stage cho backend:
 File: backend/Dockerfile
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 6.2: Tạo Unit Tests
 
 ```
@@ -412,6 +491,11 @@ Sử dụng:
 Files trong backend/src/test/java/com/todoapp/
 ```
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 6.3: Tạo Integration Tests với Testcontainers
 
 ```
@@ -440,6 +524,11 @@ Files trong backend/src/test/java/com/todoapp/integration/
 
 ## 📦 PHẦN 7: FRONTEND - SETUP
 
+Lưu ý:
+
+Luôn phản hồi bằng tiếng việt.
+Push: push code lên GitHub sau khi hoàn thành với commit tiếng việt dạng liệt kê bắt với (-), không dung icon.
+Luôn kiểm tra lại các file bạn đã tại hoặc chỉnh sửa xem có lỗi hãy không sau khi hoàn thành todo list.
 ### Prompt 7.1: Khởi tạo Frontend Project
 
 ```
