@@ -36,6 +36,7 @@ dependencies {
     // Database
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("com.mysql:mysql-connector-j")
+    runtimeOnly("com.h2database:h2")
     implementation("org.flywaydb:flyway-core")
     
     // JWT

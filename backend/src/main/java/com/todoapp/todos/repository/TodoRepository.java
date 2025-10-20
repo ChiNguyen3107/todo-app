@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -84,4 +85,49 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificat
      * @return optional containing the todo if found, owned by user, and not deleted
      */
     Optional<Todo> findByIdAndUserIdAndDeletedAtIsNull(Long id, Long userId);
+
+    /**
+     * Count todos by status for admin dashboard
+     * 
+     * @param status the status to filter by
+     * @return count of todos matching the status
+     */
+    Long countByStatus(TodoStatus status);
+
+    /**
+     * Count todos created between dates for admin dashboard
+     * 
+     * @param start start date
+     * @param end   end date
+     * @return count of todos created in the date range
+     */
+    Long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+
+    /**
+     * Count todos completed between dates for admin dashboard
+     * 
+     * @param start start date
+     * @param end   end date
+     * @return count of todos completed in the date range
+     */
+    Long countByCompletedAtBetween(LocalDateTime start, LocalDateTime end);
+
+    /**
+     * Count todos by user ID for admin dashboard
+     * 
+     * @param userId the ID of the user
+     * @return count of todos for the user
+     */
+    Long countByUserId(Long userId);
+
+    /**
+     * Find todos by title or description containing search term
+     * 
+     * @param title       search term for title
+     * @param description search term for description
+     * @param pageable    pagination information
+     * @return page of todos matching the search criteria
+     */
+    Page<Todo> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+            String title, String description, Pageable pageable);
 }

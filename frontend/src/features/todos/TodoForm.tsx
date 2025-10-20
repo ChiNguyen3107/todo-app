@@ -42,6 +42,10 @@ const PRIORITY_OPTIONS = [
 export default function TodoForm({ todo, onSuccess, onCancel, isModal = false }: TodoFormProps) {
   const { categories, tags, addTodo, updateTodo } = useTodoStore();
   
+  // Debug logging
+  console.log('TodoForm - Categories:', categories);
+  console.log('TodoForm - Tags:', tags);
+  
   const {
     register,
     handleSubmit,

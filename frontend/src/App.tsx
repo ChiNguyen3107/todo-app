@@ -7,6 +7,7 @@ import TodoDetail from './features/todos/TodoDetail';
 import CategoryList from './features/categories/CategoryList';
 import TagList from './features/tags/TagList';
 import Profile from './features/profile/Profile';
+import { AdminDashboard, UserManagement, TodoManagement, CategoryTagManagement, AdminGuard } from './features/admin';
 
 function App() {
   return (
@@ -58,6 +59,40 @@ function App() {
             <AuthGuard>
               <Profile />
             </AuthGuard>
+          }
+        />
+
+        {/* Admin routes */}
+        <Route
+          path="/admin"
+          element={
+            <AdminGuard>
+              <AdminDashboard />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <AdminGuard>
+              <UserManagement />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/admin/todos"
+          element={
+            <AdminGuard>
+              <TodoManagement />
+            </AdminGuard>
+          }
+        />
+        <Route
+          path="/admin/categories-tags"
+          element={
+            <AdminGuard>
+              <CategoryTagManagement />
+            </AdminGuard>
           }
         />
 

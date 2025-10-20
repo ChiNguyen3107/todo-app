@@ -180,6 +180,43 @@ export interface PageResponse<T> {
   last: boolean;
 }
 
+// Admin Types
+export interface AdminDashboardStats {
+  totalUsers: number;
+  activeUsers: number;
+  inactiveUsers: number;
+  totalTodos: number;
+  completedTodos: number;
+  pendingTodos: number;
+  inProgressTodos: number;
+  canceledTodos: number;
+  totalCategories: number;
+  totalTags: number;
+  todosCreatedToday: number;
+  todosCompletedToday: number;
+  usersRegisteredToday: number;
+  usersRegisteredThisWeek: number;
+  usersRegisteredThisMonth: number;
+  lastUpdated: string;
+}
+
+export interface UserManagementResponse {
+  id: number;
+  email: string;
+  fullName: string;
+  role: 'USER' | 'ADMIN';
+  status: string;
+  emailVerified: boolean;
+  createdAt: string;
+  updatedAt: string;
+  lastLoginAt?: string;
+  totalTodos: number;
+  completedTodos: number;
+  pendingTodos: number;
+  totalCategories: number;
+  totalTags: number;
+}
+
 // API Response Types
 export interface ApiError {
   message: string;

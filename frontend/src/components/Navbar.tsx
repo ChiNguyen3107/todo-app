@@ -10,6 +10,7 @@ import {
   LogOut,
   Settings,
   ChevronDown,
+  Shield,
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 
@@ -113,6 +114,17 @@ export default function Navbar() {
                     <span>Hồ sơ</span>
                   </Link>
 
+                  {user?.role === 'ADMIN' && (
+                    <Link
+                      to="/admin"
+                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      <Shield className="w-4 h-4" />
+                      <span>Admin Dashboard</span>
+                    </Link>
+                  )}
+
                   <button
                     className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
                     onClick={() => setIsUserMenuOpen(false)}
@@ -188,6 +200,17 @@ export default function Navbar() {
                 <User className="w-5 h-5" />
                 <span>Hồ sơ</span>
               </Link>
+
+              {user?.role === 'ADMIN' && (
+                <Link
+                  to="/admin"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg"
+                >
+                  <Shield className="w-5 h-5" />
+                  <span>Admin Dashboard</span>
+                </Link>
+              )}
 
               <button
                 className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg w-full"

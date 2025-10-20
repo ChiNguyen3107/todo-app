@@ -81,7 +81,9 @@ export default function TodoList() {
 
   const loadCategories = async () => {
     try {
+      console.log('Loading categories...');
       const response = await categoryApi.getAll();
+      console.log('Categories loaded:', response.data);
       setCategories(response.data);
     } catch (error) {
       console.error('Error loading categories:', error);
@@ -90,7 +92,9 @@ export default function TodoList() {
 
   const loadTags = async () => {
     try {
+      console.log('Loading tags...');
       const response = await tagApi.getAll();
+      console.log('Tags loaded:', response.data);
       setTags(response.data);
     } catch (error) {
       console.error('Error loading tags:', error);

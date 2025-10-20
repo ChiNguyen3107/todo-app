@@ -23,7 +23,7 @@ import type {
   PageResponse,
 } from '../types';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8081/api';
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -253,6 +253,57 @@ export const tagApi = {
     apiClient.put<Tag>(`/tags/${id}`, data),
 
   delete: (id: number) => apiClient.delete(`/tags/${id}`),
+};
+
+// Admin API
+export const adminApi = {
+  // Dashboard stats
+  getDashboardStats: () =>
+    apiClient.get<AdminDashboardStats>('/admin/dashboard/stats'),
+
+  // User management
+  getUsers: (params?: {
+    page?: number;
+    size?: number;
+    sortBy?: string;
+    sortDirection?: 'asc' | 'desc';
+    search?: string;
+  }) => apiClient.get<PageResponse<UserManagementResponse>>('/admin/users', { params }),
+
+  getUserById: (userId: number) =>
+    apiClient.get<UserManagementResponse>(`/admin/users/${userId}`),
+
+  updateUserStatus: (userId: number, status: string) =>
+    apiClient.put<UserManagementResponse>(`/admin/users/${userId}/status?status=${status}`),
+
+  updateUserRole: (userId: number, role: string) =>
+    apiClient.put<UserManagementResponse>(`/admin/users/${userId}/role?role=${role}`),
+
+  // Todo management
+  getAllTodos: (params?: {
+    page?: number;
+    size?: number;
+    sortBy?: string;
+    sortDirection?: 'asc' | 'desc';
+    search?: string;
+  }) => apiClient.get<PageResponse<Todo>>('/admin/todos', { params }),
+
+  deleteTodo: (todoId: number) =>
+    apiClient.delete(`/admin/todos/${todoId}`),
+
+  // Category management
+  getAllCategories: () =>
+    apiClient.get<Category[]>('/admin/categories'),
+
+  deleteCategory: (categoryId: number) =>
+    apiClient.delete(`/admin/categories/${categoryId}`),
+
+  // Tag management
+  getAllTags: () =>
+    apiClient.get<Tag[]>('/admin/tags'),
+
+  deleteTag: (tagId: number) =>
+    apiClient.delete(`/admin/tags/${tagId}`),
 };
 
 export default apiClient;

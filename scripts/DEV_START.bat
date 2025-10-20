@@ -1,16 +1,17 @@
 @echo off
 REM ==========================================
-REM Todo App - Development Startup Script
+REM Todo App - Development Startup Script (No Docker)
 REM ==========================================
 
 echo.
 echo ========================================
 echo  Todo App Development Environment
+echo  (No Docker - Using MySQL Database)
 echo ========================================
 echo.
 
 REM Check Java
-echo [1/7] Checking Java...
+echo [1/4] Checking Java...
 java -version >nul 2>&1
 if errorlevel 1 (
     echo [ERROR] Java not found! Please install Java 17 or higher.
@@ -23,7 +24,7 @@ echo [OK] Java is installed
 echo.
 
 REM Check Node.js
-echo [2/7] Checking Node.js...
+echo [2/4] Checking Node.js...
 node -v >nul 2>&1
 if errorlevel 1 (
     echo [ERROR] Node.js not found! Please install Node.js 18 or higher.
@@ -35,55 +36,31 @@ node -v
 echo [OK] Node.js is installed
 echo.
 
-REM Check Docker
-echo [3/7] Checking Docker...
-docker --version >nul 2>&1
-if errorlevel 1 (
-    echo [ERROR] Docker not found! Please install Docker Desktop.
-    echo Download from: https://www.docker.com/products/docker-desktop
-    pause
-    exit /b 1
+REM Check if ports are available
+echo [3/4] Checking port availability...
+netstat -an | find "8081" >nul 2>&1
+if not errorlevel 1 (
+    echo [WARNING] Port 8081 is already in use. Backend will use port 8082.
+    set BACKEND_PORT=8082
+) else (
+    set BACKEND_PORT=8081
 )
-docker --version
-echo [OK] Docker is installed
-echo.
 
-REM Stop and remove existing container if exists
-echo [4/7] Cleaning up old database container...
-docker stop todo-db >nul 2>&1
-docker rm todo-db >nul 2>&1
-echo [OK] Cleanup completed
-echo.
-
-REM Start PostgreSQL
-echo [5/7] Starting PostgreSQL database...
-docker run -d ^
-  --name todo-db ^
-  -e POSTGRES_DB=tododb ^
-  -e POSTGRES_USER=todouser ^
-  -e POSTGRES_PASSWORD=todopass ^
-  -p 5432:5432 ^
-  postgres:15-alpine
-
-if errorlevel 1 (
-    echo [ERROR] Failed to start database!
-    pause
-    exit /b 1
+netstat -an | find "3001" >nul 2>&1
+if not errorlevel 1 (
+    echo [WARNING] Port 3001 is already in use. Frontend will use port 3002.
+    set FRONTEND_PORT=3002
+) else (
+    set FRONTEND_PORT=3001
 )
-echo [OK] PostgreSQL started on port 5432
+echo [OK] Ports checked
 echo.
 
-REM Wait for database
-echo [6/7] Waiting for database to be ready...
-timeout /t 10 /nobreak >nul
-echo [OK] Database is ready
-echo.
-
-REM Start Backend
-echo [7/7] Starting Backend (Spring Boot)...
+REM Start Backend with MySQL database
+echo [4/4] Starting Backend (Spring Boot with MySQL)...
 cd /d "%~dp0..\backend"
-start "Todo App - Backend" cmd /k "echo Starting Backend... && gradlew bootRun --args='--spring.profiles.active=dev'"
-echo [OK] Backend is starting on port 8080
+start "Todo App - Backend" cmd /k "echo Starting Backend on port %BACKEND_PORT%... && set SPRING_PROFILES_ACTIVE=mysql && set SERVER_PORT=%BACKEND_PORT% && gradlew bootRun"
+echo [OK] Backend is starting on port %BACKEND_PORT%
 echo     (Check the new window for backend logs)
 echo.
 
@@ -95,8 +72,8 @@ echo.
 REM Start Frontend
 echo Starting Frontend (React + Vite)...
 cd /d "%~dp0..\frontend"
-start "Todo App - Frontend" cmd /k "echo Starting Frontend... && npm run dev"
-echo [OK] Frontend is starting on port 3000
+start "Todo App - Frontend" cmd /k "echo Starting Frontend on port %FRONTEND_PORT%... && npm run dev -- --port %FRONTEND_PORT%"
+echo [OK] Frontend is starting on port %FRONTEND_PORT%
 echo     (Check the new window for frontend logs)
 echo.
 
@@ -105,10 +82,11 @@ echo  Todo App is starting!
 echo ========================================
 echo.
 echo Services:
-echo   - Frontend:  http://localhost:3000
-echo   - Backend:   http://localhost:8080
-echo   - API Docs:  http://localhost:8080/swagger-ui.html
-echo   - Database:  localhost:5432 (tododb)
+echo   - Frontend:  http://localhost:%FRONTEND_PORT%
+echo   - Backend:   http://localhost:%BACKEND_PORT%
+echo   - API Docs:  http://localhost:%BACKEND_PORT%/swagger-ui.html
+echo   - Database:  MySQL via XAMPP (localhost:3306)
+echo     (Database: tododb, Username: root, Password: )
 echo.
 echo Demo Accounts:
 echo   - Admin: admin@todo.local / Admin@123
@@ -116,13 +94,13 @@ echo   - User:  user@todo.local  / Pass@123
 echo.
 echo To stop all services:
 echo   1. Close Backend and Frontend windows
-echo   2. Run: docker stop todo-db
+echo   2. Press Ctrl+C in each window
 echo.
 echo Press any key to open browser...
 pause >nul
 
 REM Open browser
-start http://localhost:3000
+start http://localhost:%FRONTEND_PORT%
 
 echo.
 echo Have a great development session!

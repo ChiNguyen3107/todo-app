@@ -35,4 +35,12 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
      * @return Tag nếu user sở hữu
      */
     Optional<Tag> findByIdAndUserId(Long id, Long userId);
+
+    /**
+     * Count tags by user ID for admin dashboard
+     * 
+     * @param userId the ID of the user
+     * @return count of tags for the user
+     */
+    Long countByUserId(Long userId);
 }

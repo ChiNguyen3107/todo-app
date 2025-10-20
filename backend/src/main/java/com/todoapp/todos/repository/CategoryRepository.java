@@ -35,4 +35,12 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
      * @return Category nếu user sở hữu
      */
     Optional<Category> findByIdAndUserId(Long id, Long userId);
+
+    /**
+     * Count categories by user ID for admin dashboard
+     * 
+     * @param userId the ID of the user
+     * @return count of categories for the user
+     */
+    Long countByUserId(Long userId);
 }
