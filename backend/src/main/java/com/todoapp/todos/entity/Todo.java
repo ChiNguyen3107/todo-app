@@ -1,7 +1,6 @@
 package com.todoapp.todos.entity;
 
 import com.todoapp.auth.entity.User;
-import com.todoapp.common.entity.Auditable;
 import com.todoapp.common.entity.SoftDelete;
 import jakarta.persistence.*;
 import lombok.*;
