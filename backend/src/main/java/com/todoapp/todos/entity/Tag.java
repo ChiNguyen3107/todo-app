@@ -9,7 +9,7 @@ import lombok.*;
 @Table(name = "tags", indexes = {
         @Index(name = "idx_tag_user_id", columnList = "user_id")
 }, uniqueConstraints = {
-        @UniqueConstraint(name = "uk_tag_user_name", columnNames = {"user_id", "name"})
+        @UniqueConstraint(name = "uk_tag_user_name", columnNames = { "user_id", "name" })
 })
 @Getter
 @Setter

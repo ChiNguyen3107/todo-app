@@ -3,18 +3,21 @@
 ## ✅ ĐÃ HOÀN THÀNH
 
 ### 1. Cấu trúc & Config chung
+
 - ✅ `.gitignore`
 - ✅ `.editorconfig`
 - ✅ `README.md` (đầy đủ hướng dẫn)
 - ✅ `docker-compose.yml` (Postgres, MySQL profiles, pgAdmin)
 
 ### 2. Backend - Base Setup
+
 - ✅ `build.gradle.kts` (đầy đủ dependencies)
 - ✅ `settings.gradle.kts`
 - ✅ `application.yml` (dev/prod profiles)
 - ✅ `TodoAppApplication.java`
 
 ### 3. Common Layer
+
 - ✅ `Auditable.java` (base entity với createdAt, updatedAt, etc.)
 - ✅ `SoftDelete.java` (deletedAt support)
 - ✅ `GlobalExceptionHandler.java` (tất cả exception handlers)
@@ -25,6 +28,7 @@
 - ✅ `RequestResponseLoggingFilter.java` (request/response logging)
 
 ### 4. Domain Entities
+
 - ✅ `User.java` (với Role, UserStatus)
 - ✅ `Role.java` enum
 - ✅ `UserStatus.java` enum
@@ -37,10 +41,12 @@
 - ✅ `Attachment.java`
 
 ### 5. Database Migrations
+
 - ✅ `V1__init.sql` (toàn bộ schema)
 - ✅ `V2__seed.sql` (admin, user, categories, tags, todos mẫu)
 
 ### 6. Auth Module - Partial
+
 - ✅ `UserRepository.java`
 - ✅ `RefreshTokenRepository.java`
 - ✅ `RegisterRequest.java`
@@ -55,6 +61,7 @@
 ### Backend
 
 #### Auth Module
+
 - ❌ `JwtService.java` - tạo/validate JWT tokens
 - ❌ `RefreshTokenService.java` - quản lý refresh tokens
 - ❌ `AuthService.java` - business logic cho auth
@@ -65,6 +72,7 @@
 - ❌ `VerifyEmailRequest.java` DTO
 
 #### User Module
+
 - ❌ `UserService.java`
 - ❌ `UserController.java`
 - ❌ `UserResponse.java` DTO
@@ -73,6 +81,7 @@
 - ❌ `UserMapper.java` (MapStruct)
 
 #### Category Module
+
 - ❌ `CategoryRepository.java`
 - ❌ `CategoryService.java`
 - ❌ `CategoryController.java`
@@ -81,6 +90,7 @@
 - ❌ `CategoryMapper.java`
 
 #### Tag Module
+
 - ❌ `TagRepository.java`
 - ❌ `TagService.java`
 - ❌ `TagController.java`
@@ -89,6 +99,7 @@
 - ❌ `TagMapper.java`
 
 #### Todo Module (Lớn nhất)
+
 - ❌ `TodoRepository.java` (với custom queries)
 - ❌ `TodoService.java` (CRUD, search, filter, subtasks, etc.)
 - ❌ `TodoController.java` (tất cả endpoints)
@@ -103,6 +114,7 @@
 - ❌ `TodoSpecification.java` (filter logic)
 
 #### Testing & Docker
+
 - ❌ `Dockerfile` (backend multi-stage build)
 - ❌ Unit tests (Service layer)
 - ❌ Integration tests (Testcontainers)
@@ -112,6 +124,7 @@
 ### Frontend (TẤT CẢ)
 
 #### Setup
+
 - ❌ `package.json`
 - ❌ `vite.config.ts`
 - ❌ `tsconfig.json`
@@ -121,6 +134,7 @@
 - ❌ `index.html`
 
 #### Core
+
 - ❌ `src/main.tsx`
 - ❌ `src/App.tsx`
 - ❌ `src/lib/api.ts` (axios instance với interceptors)
@@ -129,28 +143,33 @@
 - ❌ `src/store/todoStore.ts`
 
 #### Features - Auth
+
 - ❌ `src/features/auth/Login.tsx`
 - ❌ `src/features/auth/Register.tsx`
 - ❌ `src/features/auth/VerifyEmail.tsx`
 - ❌ `src/features/auth/AuthGuard.tsx`
 
 #### Features - Todos
+
 - ❌ `src/features/todos/TodoList.tsx`
 - ❌ `src/features/todos/TodoDetail.tsx`
 - ❌ `src/features/todos/TodoForm.tsx`
 - ❌ `src/features/todos/TodoFilter.tsx`
 
 #### Features - Categories/Tags
+
 - ❌ `src/features/categories/CategoryList.tsx`
 - ❌ `src/features/tags/TagList.tsx`
 - ❌ `src/features/profile/Profile.tsx`
 
 #### Components
+
 - ❌ `src/components/Layout.tsx`
 - ❌ `src/components/Navbar.tsx`
 - ❌ Các UI components khác
 
 #### Docker & Config
+
 - ❌ `Dockerfile` (frontend với nginx)
 - ❌ `nginx.conf`
 - ❌ `.env`
@@ -158,6 +177,7 @@
 ---
 
 ### Scripts & Documentation
+
 - ❌ `scripts/DEV_START.bat`
 - ❌ `postman/todo-app.postman.json`
 
@@ -168,16 +188,20 @@
 Do dự án quá lớn (>100 files), đề xuất:
 
 ### Option 1: Tôi tạo tiếp từng module
+
 Bạn yêu cầu tôi tạo từng module cụ thể:
+
 - "Tạo Auth module hoàn chỉnh"
 - "Tạo Todo module hoàn chỉnh"
 - "Tạo Frontend setup"
 - v.v.
 
 ### Option 2: Tạo template generator script
+
 Tạo script để generate code boilerplate tự động
 
 ### Option 3: Focus vào MVP
+
 Chỉ tạo các feature thiết yếu để chạy được ngay
 
 ---

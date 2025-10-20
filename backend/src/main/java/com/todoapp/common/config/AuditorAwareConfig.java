@@ -17,13 +17,13 @@ public class AuditorAwareConfig {
     public AuditorAware<Long> auditorAware() {
         return () -> {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            
-            if (authentication == null || 
-                !authentication.isAuthenticated() || 
-                authentication instanceof AnonymousAuthenticationToken) {
+
+            if (authentication == null ||
+                    !authentication.isAuthenticated() ||
+                    authentication instanceof AnonymousAuthenticationToken) {
                 return Optional.empty();
             }
-            
+
             try {
                 return Optional.of(Long.parseLong(authentication.getName()));
             } catch (NumberFormatException e) {

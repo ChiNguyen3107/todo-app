@@ -73,11 +73,7 @@ public class Todo extends SoftDelete {
     private Category category;
 
     @ManyToMany
-    @JoinTable(
-            name = "todo_tags",
-            joinColumns = @JoinColumn(name = "todo_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
+    @JoinTable(name = "todo_tags", joinColumns = @JoinColumn(name = "todo_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     @Builder.Default
     private Set<Tag> tags = new HashSet<>();
 

@@ -39,11 +39,13 @@ docker compose down
 ```
 
 **URLs:**
+
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8080
 - Swagger UI: http://localhost:8080/swagger-ui.html
 
 **Tài khoản demo:**
+
 - Admin: `admin@todo.local` / `Admin@123`
 - User: `user@todo.local` / `Pass@123`
 
@@ -91,6 +93,7 @@ java -jar build/libs/backend-0.0.1-SNAPSHOT.jar
 ```
 
 **Yêu cầu:**
+
 - Java 17+
 - Gradle 8+
 
@@ -120,6 +123,7 @@ pnpm dev
 ```
 
 **Yêu cầu:**
+
 - Node.js 18+
 - pnpm (hoặc npm/yarn)
 
@@ -132,12 +136,15 @@ VITE_API_URL=http://localhost:8080
 ## 📚 API Documentation
 
 ### Swagger UI
+
 http://localhost:8080/swagger-ui.html
 
 ### OpenAPI JSON
+
 http://localhost:8080/v3/api-docs
 
 ### Postman Collection
+
 Import file `postman/todo-app.postman.json` vào Postman.
 
 Hoặc generate từ OpenAPI:
@@ -160,6 +167,7 @@ scripts\DEV_START.bat
 ### Development Commands
 
 **Backend:**
+
 ```bash
 cd backend
 ./gradlew clean build          # Build
@@ -169,6 +177,7 @@ cd backend
 ```
 
 **Frontend:**
+
 ```bash
 cd frontend
 pnpm dev                       # Dev server
@@ -201,6 +210,7 @@ docker compose --profile mysql up -d
 ## 📊 Database Schema
 
 Flyway migrations tự động chạy khi start backend:
+
 - `V1__init.sql`: Tạo schema (users, todos, categories, tags, attachments)
 - `V2__seed.sql`: Data mẫu (users, categories, tags, todos)
 
@@ -215,6 +225,7 @@ Flyway migrations tự động chạy khi start backend:
 ## 🧪 Testing
 
 **Backend:**
+
 ```bash
 cd backend
 ./gradlew test                      # Unit tests
@@ -222,6 +233,7 @@ cd backend
 ```
 
 **Frontend:**
+
 ```bash
 cd frontend
 pnpm test                           # Run tests
@@ -242,6 +254,7 @@ docker compose up -d
 ### Manual
 
 **Backend:**
+
 ```bash
 cd backend
 ./gradlew bootJar
@@ -249,6 +262,7 @@ java -jar build/libs/backend-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
 **Frontend:**
+
 ```bash
 cd frontend
 pnpm build
@@ -258,29 +272,31 @@ pnpm build
 ## 🌐 Profiles
 
 **Backend:**
+
 - `dev`: Development (console logging, H2/Postgres local)
 - `prod`: Production (file logging, external DB)
 
 **Frontend:**
+
 - `.env.development`: Local dev
 - `.env.production`: Production build
 
 ## 📝 API Endpoints Summary
 
-| Endpoint | Method | Description | Auth |
-|----------|--------|-------------|------|
-| `/api/auth/register` | POST | Đăng ký | ❌ |
-| `/api/auth/login` | POST | Đăng nhập | ❌ |
-| `/api/auth/refresh` | POST | Refresh token | ❌ |
-| `/api/auth/logout` | POST | Đăng xuất | ✅ |
-| `/api/users/me` | GET | Thông tin user | ✅ |
-| `/api/todos` | GET | Danh sách todos | ✅ |
-| `/api/todos` | POST | Tạo todo | ✅ |
-| `/api/todos/{id}` | PUT | Cập nhật todo | ✅ |
-| `/api/todos/{id}` | DELETE | Xóa todo (soft) | ✅ |
-| `/api/todos/search` | GET | Tìm kiếm & filter | ✅ |
-| `/api/categories` | GET/POST | Quản lý categories | ✅ |
-| `/api/tags` | GET/POST | Quản lý tags | ✅ |
+| Endpoint             | Method   | Description        | Auth |
+| -------------------- | -------- | ------------------ | ---- |
+| `/api/auth/register` | POST     | Đăng ký            | ❌   |
+| `/api/auth/login`    | POST     | Đăng nhập          | ❌   |
+| `/api/auth/refresh`  | POST     | Refresh token      | ❌   |
+| `/api/auth/logout`   | POST     | Đăng xuất          | ✅   |
+| `/api/users/me`      | GET      | Thông tin user     | ✅   |
+| `/api/todos`         | GET      | Danh sách todos    | ✅   |
+| `/api/todos`         | POST     | Tạo todo           | ✅   |
+| `/api/todos/{id}`    | PUT      | Cập nhật todo      | ✅   |
+| `/api/todos/{id}`    | DELETE   | Xóa todo (soft)    | ✅   |
+| `/api/todos/search`  | GET      | Tìm kiếm & filter  | ✅   |
+| `/api/categories`    | GET/POST | Quản lý categories | ✅   |
+| `/api/tags`          | GET/POST | Quản lý tags       | ✅   |
 
 ## 🔧 Troubleshooting
 
@@ -315,6 +331,7 @@ MIT License
 ## 👨‍💻 Tech Stack
 
 **Backend:**
+
 - Java 17
 - Spring Boot 3.x
 - Spring Security + JWT
@@ -328,6 +345,7 @@ MIT License
 - Gradle Kotlin DSL
 
 **Frontend:**
+
 - React 18
 - TypeScript
 - Vite
@@ -338,6 +356,7 @@ MIT License
 - ESLint + Prettier
 
 **DevOps:**
+
 - Docker & Docker Compose
 - Multi-stage builds
 - Health checks
