@@ -43,8 +43,12 @@ export default function Login() {
       const response = await authApi.login(loginData);
       login(response.data);
 
-      // Redirect to todos page
-      navigate('/todos');
+      // Redirect based on user role
+      if (response.data.role === 'ADMIN') {
+        navigate('/admin');
+      } else {
+        navigate('/todos');
+      }
     } catch (error: unknown) {
       console.error('Login error:', error);
       const message = (error as { response?: { data?: { message?: string } } }).response?.data?.message || 'Đăng nhập thất bại. Vui lòng thử lại.';

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  LogOut,
   Plus,
   Edit,
   Trash2,
@@ -20,11 +19,11 @@ import {
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import { useAuthStore } from '../../store/authStore';
 import { useTodoStore } from '../../store/todoStore';
 import { todoApi, categoryApi, tagApi } from '../../lib/api';
 import TodoFilter from './TodoFilter';
 import TodoForm from './TodoForm';
+import Layout from '../../components/Layout';
 import type { Todo, TodoStatus, TodoPriority } from '../../types';
 
 type ViewMode = 'table' | 'cards';
@@ -43,7 +42,6 @@ const PRIORITY_CONFIG: Record<TodoPriority, { label: string; color: string; badg
 };
 
 export default function TodoList() {
-  const { user, logout } = useAuthStore();
   const navigate = useNavigate();
   const {
     todos,
@@ -115,10 +113,6 @@ export default function TodoList() {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
 
   const handlePageChange = (page: number) => {
     setFilters({ page });
@@ -394,24 +388,9 @@ export default function TodoList() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <Layout>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">Todo List</h1>
-              <p className="text-gray-600 mt-1">Chào mừng, {user?.fullName || 'User'}</p>
-            </div>
-            <button
-              onClick={handleLogout}
-              className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Đăng xuất
-            </button>
-          </div>
-        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Filter Sidebar */}
@@ -542,6 +521,6 @@ export default function TodoList() {
           onCancel={() => setEditingTodo(null)}
         />
       )}
-    </div>
+    </Layout>
   );
 }

@@ -18,7 +18,7 @@ const AdminGuard: React.FC<AdminGuardProps> = ({ children }) => {
     }
 
     if (user?.role !== 'ADMIN') {
-      navigate('/');
+      navigate('/todos');
       return;
     }
   }, [isAuthenticated, user, navigate]);
