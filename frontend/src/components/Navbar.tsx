@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   Menu,
@@ -26,6 +26,19 @@ export default function Navbar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // Close dropdown on Escape key
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsUserMenuOpen(false);
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -118,9 +131,9 @@ export default function Navbar() {
           <div className="hidden md:block relative">
             <button
               onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-              className="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-gray-100 transition-all duration-300 hover:shadow-md"
+              className="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-gray-100 transition-all duration-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow duration-300">
                 <span className="text-white text-sm font-bold">
                   {user?.fullName.charAt(0).toUpperCase()}
                 </span>
@@ -139,7 +152,7 @@ export default function Navbar() {
                   className="fixed inset-0 z-10"
                   onClick={() => setIsUserMenuOpen(false)}
                 ></div>
-                <div className="absolute right-0 mt-3 w-64 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200/50 py-3 z-20">
+                <div className="absolute right-0 mt-3 w-64 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200/50 py-3 z-20 animate-in slide-in-from-top-2 duration-200">
                   <div className="px-4 py-3 border-b border-gray-200/50">
                     <div className="flex items-center space-x-3">
                       <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
@@ -164,39 +177,50 @@ export default function Navbar() {
                   <div className="py-2">
                     <Link
                       to="/profile"
-                      className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg mx-2 transition-colors"
+                      className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg mx-2 transition-colors group"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
-                      <User className="w-5 h-5" />
+                      <User className="w-5 h-5 group-hover:text-blue-600 transition-colors" />
                       <span>Hồ sơ cá nhân</span>
                     </Link>
 
                     {user?.role === 'ADMIN' && (
                       <Link
                         to="/admin"
-                        className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 rounded-lg mx-2 transition-colors"
+                        className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 rounded-lg mx-2 transition-colors group"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
-                        <Shield className="w-5 h-5" />
+                        <Shield className="w-5 h-5 group-hover:text-purple-600 transition-colors" />
                         <span>Admin Dashboard</span>
                       </Link>
                     )}
 
                     <button
-                      className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg mx-2 w-full transition-colors"
+                      className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg mx-2 w-full transition-colors group"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
-                      <Settings className="w-5 h-5" />
+                      <Settings className="w-5 h-5 group-hover:text-gray-600 transition-colors" />
                       <span>Cài đặt</span>
+                    </button>
+
+                    <button
+                      className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg mx-2 w-full transition-colors group"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      <Bell className="w-5 h-5 group-hover:text-yellow-600 transition-colors" />
+                      <span>Thông báo</span>
                     </button>
                   </div>
 
                   <div className="border-t border-gray-200/50 pt-2">
+                    <div className="px-4 py-2 text-xs text-gray-500 mb-2">
+                      Phiên đăng nhập: {new Date().toLocaleString('vi-VN')}
+                    </div>
                     <button
                       onClick={handleLogout}
-                      className="flex items-center space-x-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 rounded-lg mx-2 w-full transition-colors"
+                      className="flex items-center space-x-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 rounded-lg mx-2 w-full transition-colors group"
                     >
-                      <LogOut className="w-5 h-5" />
+                      <LogOut className="w-5 h-5 group-hover:text-red-700 transition-colors" />
                       <span>Đăng xuất</span>
                     </button>
                   </div>
