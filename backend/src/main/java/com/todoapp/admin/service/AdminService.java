@@ -62,7 +62,7 @@ public class AdminService {
 
         // Today's statistics
         Long todosCreatedToday = todoRepository.countByCreatedAtBetween(startOfDay, endOfDay);
-        Long todosCompletedToday = todoRepository.countByCompletedAtBetween(startOfDay, endOfDay);
+        Long todosCompletedToday = todoRepository.countByStatus(TodoStatus.DONE); // Count all completed todos
         Long usersRegisteredToday = userRepository.countByCreatedAtBetween(startOfDay, endOfDay);
 
         // Weekly and Monthly statistics
@@ -96,7 +96,7 @@ public class AdminService {
         Page<User> users;
         if (search != null && !search.trim().isEmpty()) {
             users = userRepository.findByEmailContainingIgnoreCaseOrFullNameContainingIgnoreCase(
-                    search, search, pageable);
+                    search, pageable);
         } else {
             users = userRepository.findAll(pageable);
         }
@@ -141,7 +141,7 @@ public class AdminService {
 
         if (search != null && !search.trim().isEmpty()) {
             return todoRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
-                    search, search, pageable);
+                    search, pageable);
         } else {
             return todoRepository.findAll(pageable);
         }

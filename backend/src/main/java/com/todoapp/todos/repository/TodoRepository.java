@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -103,14 +104,6 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificat
      */
     Long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
 
-    /**
-     * Count todos completed between dates for admin dashboard
-     * 
-     * @param start start date
-     * @param end   end date
-     * @return count of todos completed in the date range
-     */
-    Long countByCompletedAtBetween(LocalDateTime start, LocalDateTime end);
 
     /**
      * Count todos by user ID for admin dashboard
@@ -123,11 +116,13 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, JpaSpecificat
     /**
      * Find todos by title or description containing search term
      * 
-     * @param title       search term for title
-     * @param description search term for description
-     * @param pageable    pagination information
+     * @param search   search term for title or description
+     * @param pageable pagination information
      * @return page of todos matching the search criteria
      */
+    @Query("SELECT t FROM Todo t WHERE " +
+           "LOWER(t.title) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+           "LOWER(t.description) LIKE LOWER(CONCAT('%', :search, '%'))")
     Page<Todo> findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
-            String title, String description, Pageable pageable);
+            String search, Pageable pageable);
 }

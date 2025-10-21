@@ -11,6 +11,10 @@ import {
   Settings,
   ChevronDown,
   Shield,
+  Bell,
+  Search,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 
@@ -20,6 +24,8 @@ export default function Navbar() {
   const { user, logout } = useAuthStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -35,58 +41,95 @@ export default function Navbar() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
+    <nav className="bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 sticky top-0 z-50">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}
           <div className="flex items-center">
-            <Link to="/todos" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <ListTodo className="w-5 h-5 text-white" />
+            <Link to="/todos" className="flex items-center space-x-3 group">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                <ListTodo className="w-6 h-6 text-white" />
               </div>
-              <span className="text-xl font-bold text-gray-800 hidden sm:inline">
-                Todo App
-              </span>
+              <div className="hidden sm:block">
+                <span className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                  Todo App
+                </span>
+                <p className="text-xs text-gray-500 -mt-1">Quản lý công việc thông minh</p>
+              </div>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-2">
             {navLinks.map((link) => {
               const Icon = link.icon;
               return (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                  className={`flex items-center space-x-2 px-4 py-2.5 rounded-xl transition-all duration-300 ${
                     isActive(link.path)
-                      ? 'bg-blue-50 text-blue-600 font-medium'
-                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+                      ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg shadow-blue-500/25'
+                      : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900 hover:shadow-md'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
-                  <span>{link.label}</span>
+                  <span className="font-medium">{link.label}</span>
                 </Link>
               );
             })}
+          </div>
+
+          {/* Search & Actions */}
+          <div className="hidden md:flex items-center space-x-3">
+            {/* Search Button */}
+            <button
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+              title="Tìm kiếm"
+            >
+              <Search className="w-5 h-5 text-gray-600" />
+            </button>
+
+            {/* Notifications */}
+            <button
+              className="p-2 rounded-xl hover:bg-gray-100 transition-colors relative"
+              title="Thông báo"
+            >
+              <Bell className="w-5 h-5 text-gray-600" />
+              <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+            </button>
+
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+              title="Chế độ tối"
+            >
+              {isDarkMode ? (
+                <Sun className="w-5 h-5 text-gray-600" />
+              ) : (
+                <Moon className="w-5 h-5 text-gray-600" />
+              )}
+            </button>
           </div>
 
           {/* User Menu - Desktop */}
           <div className="hidden md:block relative">
             <button
               onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-              className="flex items-center space-x-3 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-gray-100 transition-all duration-300 hover:shadow-md"
             >
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-sm font-medium">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center shadow-lg">
+                <span className="text-white text-sm font-bold">
                   {user?.fullName.charAt(0).toUpperCase()}
                 </span>
               </div>
               <div className="text-left">
-                <p className="text-sm font-medium text-gray-700">{user?.fullName}</p>
+                <p className="text-sm font-semibold text-gray-800">{user?.fullName}</p>
                 <p className="text-xs text-gray-500">{user?.email}</p>
               </div>
-              <ChevronDown className="w-4 h-4 text-gray-500" />
+              <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180' : ''}`} />
             </button>
 
             {/* Dropdown Menu */}
@@ -96,52 +139,67 @@ export default function Navbar() {
                   className="fixed inset-0 z-10"
                   onClick={() => setIsUserMenuOpen(false)}
                 ></div>
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-20">
-                  <div className="px-4 py-2 border-b border-gray-200">
-                    <p className="text-sm font-medium text-gray-700">{user?.fullName}</p>
-                    <p className="text-xs text-gray-500">{user?.email}</p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {user?.role === 'ADMIN' ? 'Quản trị viên' : 'Người dùng'}
-                    </p>
+                <div className="absolute right-0 mt-3 w-64 bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-200/50 py-3 z-20">
+                  <div className="px-4 py-3 border-b border-gray-200/50">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm font-bold">
+                          {user?.fullName.charAt(0).toUpperCase()}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-800">{user?.fullName}</p>
+                        <p className="text-xs text-gray-500">{user?.email}</p>
+                        <span className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
+                          user?.role === 'ADMIN' 
+                            ? 'bg-purple-100 text-purple-700' 
+                            : 'bg-blue-100 text-blue-700'
+                        }`}>
+                          {user?.role === 'ADMIN' ? 'Quản trị viên' : 'Người dùng'}
+                        </span>
+                      </div>
+                    </div>
                   </div>
 
-                  <Link
-                    to="/profile"
-                    className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    onClick={() => setIsUserMenuOpen(false)}
-                  >
-                    <User className="w-4 h-4" />
-                    <span>Hồ sơ</span>
-                  </Link>
-
-                  {user?.role === 'ADMIN' && (
+                  <div className="py-2">
                     <Link
-                      to="/admin"
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      to="/profile"
+                      className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg mx-2 transition-colors"
                       onClick={() => setIsUserMenuOpen(false)}
                     >
-                      <Shield className="w-4 h-4" />
-                      <span>Admin Dashboard</span>
+                      <User className="w-5 h-5" />
+                      <span>Hồ sơ cá nhân</span>
                     </Link>
-                  )}
 
-                  <button
-                    className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full"
-                    onClick={() => setIsUserMenuOpen(false)}
-                  >
-                    <Settings className="w-4 h-4" />
-                    <span>Cài đặt</span>
-                  </button>
+                    {user?.role === 'ADMIN' && (
+                      <Link
+                        to="/admin"
+                        className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-purple-50 rounded-lg mx-2 transition-colors"
+                        onClick={() => setIsUserMenuOpen(false)}
+                      >
+                        <Shield className="w-5 h-5" />
+                        <span>Admin Dashboard</span>
+                      </Link>
+                    )}
 
-                  <hr className="my-2 border-gray-200" />
+                    <button
+                      className="flex items-center space-x-3 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 rounded-lg mx-2 w-full transition-colors"
+                      onClick={() => setIsUserMenuOpen(false)}
+                    >
+                      <Settings className="w-5 h-5" />
+                      <span>Cài đặt</span>
+                    </button>
+                  </div>
 
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center space-x-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full"
-                  >
-                    <LogOut className="w-4 h-4" />
-                    <span>Đăng xuất</span>
-                  </button>
+                  <div className="border-t border-gray-200/50 pt-2">
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center space-x-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50 rounded-lg mx-2 w-full transition-colors"
+                    >
+                      <LogOut className="w-5 h-5" />
+                      <span>Đăng xuất</span>
+                    </button>
+                  </div>
                 </div>
               </>
             )}
@@ -162,7 +220,28 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4">
+          <div className="md:hidden border-t border-gray-200/50 py-4 bg-white/95 backdrop-blur-md">
+            {/* Mobile Search & Actions */}
+            <div className="flex items-center space-x-3 px-4 mb-4">
+              <button className="flex-1 flex items-center space-x-2 px-3 py-2 bg-gray-100 rounded-xl">
+                <Search className="w-4 h-4 text-gray-500" />
+                <span className="text-sm text-gray-500">Tìm kiếm...</span>
+              </button>
+              <button className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
+                <Bell className="w-5 h-5 text-gray-600" />
+              </button>
+              <button 
+                onClick={() => setIsDarkMode(!isDarkMode)}
+                className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
+              >
+                {isDarkMode ? (
+                  <Sun className="w-5 h-5 text-gray-600" />
+                ) : (
+                  <Moon className="w-5 h-5 text-gray-600" />
+                )}
+              </button>
+            </div>
+
             {/* Mobile Navigation Links */}
             <div className="space-y-1 mb-4">
               {navLinks.map((link) => {
@@ -172,61 +251,79 @@ export default function Navbar() {
                     key={link.path}
                     to={link.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
+                    className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
                       isActive(link.path)
-                        ? 'bg-blue-50 text-blue-600 font-medium'
-                        : 'text-gray-600 hover:bg-gray-100'
+                        ? 'bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-lg'
+                        : 'text-gray-600 hover:bg-gray-100 hover:shadow-md'
                     }`}
                   >
                     <Icon className="w-5 h-5" />
-                    <span>{link.label}</span>
+                    <span className="font-medium">{link.label}</span>
                   </Link>
                 );
               })}
             </div>
 
             {/* Mobile User Menu */}
-            <div className="border-t border-gray-200 pt-4">
-              <div className="px-4 py-2 mb-2">
-                <p className="text-sm font-medium text-gray-700">{user?.fullName}</p>
-                <p className="text-xs text-gray-500">{user?.email}</p>
+            <div className="border-t border-gray-200/50 pt-4">
+              <div className="px-4 py-3 mb-3 bg-gray-50 rounded-xl">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                    <span className="text-white text-sm font-bold">
+                      {user?.fullName.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-800">{user?.fullName}</p>
+                    <p className="text-xs text-gray-500">{user?.email}</p>
+                    <span className={`inline-block px-2 py-1 text-xs rounded-full mt-1 ${
+                      user?.role === 'ADMIN' 
+                        ? 'bg-purple-100 text-purple-700' 
+                        : 'bg-blue-100 text-blue-700'
+                    }`}>
+                      {user?.role === 'ADMIN' ? 'Quản trị viên' : 'Người dùng'}
+                    </span>
+                  </div>
+                </div>
               </div>
 
-              <Link
-                to="/profile"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg"
-              >
-                <User className="w-5 h-5" />
-                <span>Hồ sơ</span>
-              </Link>
-
-              {user?.role === 'ADMIN' && (
+              <div className="space-y-1">
                 <Link
-                  to="/admin"
+                  to="/profile"
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg"
+                  className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors"
                 >
-                  <Shield className="w-5 h-5" />
-                  <span>Admin Dashboard</span>
+                  <User className="w-5 h-5" />
+                  <span>Hồ sơ cá nhân</span>
                 </Link>
-              )}
 
-              <button
-                className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-lg w-full"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <Settings className="w-5 h-5" />
-                <span>Cài đặt</span>
-              </button>
+                {user?.role === 'ADMIN' && (
+                  <Link
+                    to="/admin"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-purple-50 rounded-xl transition-colors"
+                  >
+                    <Shield className="w-5 h-5" />
+                    <span>Admin Dashboard</span>
+                  </Link>
+                )}
 
-              <button
-                onClick={handleLogout}
-                className="flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg w-full mt-2"
-              >
-                <LogOut className="w-5 h-5" />
-                <span>Đăng xuất</span>
-              </button>
+                <button
+                  className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-xl w-full transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Settings className="w-5 h-5" />
+                  <span>Cài đặt</span>
+                </button>
+
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center space-x-3 px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl w-full transition-colors"
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span>Đăng xuất</span>
+                </button>
+              </div>
             </div>
           </div>
         )}

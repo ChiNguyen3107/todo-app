@@ -4,7 +4,7 @@ echo    TODO APP - STOP ALL SERVICES
 echo ========================================
 echo.
 
-echo [1/3] Stopping Frontend...
+echo [1/4] Stopping Frontend...
 taskkill /f /im node.exe 2>nul
 if %errorlevel% equ 0 (
     echo Frontend stopped successfully.
@@ -13,7 +13,7 @@ if %errorlevel% equ 0 (
 )
 
 echo.
-echo [2/3] Stopping Backend...
+echo [2/4] Stopping Backend...
 taskkill /f /im java.exe 2>nul
 if %errorlevel% equ 0 (
     echo Backend stopped successfully.
@@ -22,7 +22,16 @@ if %errorlevel% equ 0 (
 )
 
 echo.
-echo [3/3] Stopping XAMPP (optional)...
+echo [3/4] Stopping Gradle daemon...
+gradlew --stop 2>nul
+if %errorlevel% equ 0 (
+    echo Gradle daemon stopped.
+) else (
+    echo Gradle daemon was not running.
+)
+
+echo.
+echo [4/4] Stopping XAMPP (optional)...
 echo Do you want to stop XAMPP services? (y/n)
 set /p choice=
 if /i "%choice%"=="y" (
@@ -38,5 +47,8 @@ echo.
 echo ========================================
 echo    ALL SERVICES STOPPED!
 echo ========================================
+echo.
+echo To start the app again, run:
+echo   scripts\START_APP.bat
 echo.
 pause
