@@ -8,7 +8,7 @@ interface LayoutProps {
 
 export default function Layout({ children, showSidebar = false }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Navbar */}
       <Navbar />
 
@@ -16,7 +16,7 @@ export default function Layout({ children, showSidebar = false }: LayoutProps) {
       <div className="flex">
         {/* Sidebar - Optional */}
         {showSidebar && (
-          <aside className="hidden lg:block w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-4rem)] sticky top-16">
+          <aside className="hidden lg:block w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-[calc(100vh-4rem)] sticky top-16">
             <div className="p-4">
               <h3 className="text-sm font-semibold text-gray-700 mb-3">Bộ lọc nhanh</h3>
               
@@ -68,7 +68,7 @@ export default function Layout({ children, showSidebar = false }: LayoutProps) {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-gray-50 to-gray-100 border-t border-gray-200/50 mt-auto">
+      <footer className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-900 border-t border-gray-200/50 dark:border-gray-700/50 mt-auto">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           {/* Main Footer Content */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-6">

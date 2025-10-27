@@ -12,21 +12,30 @@ import {
   ChevronDown,
   Bell,
   Search,
-  Sun,
-  Moon,
   BarChart3,
   Users,
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
+import { useThemeStore } from '../store/themeStore';
+import { DarkModeToggle } from './ui';
 
 export default function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout } = useAuthStore();
+  const { isDarkMode } = useThemeStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  // Apply dark mode class to document
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   // Close dropdown on Escape key and click outside
   useEffect(() => {
@@ -95,7 +104,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 sticky top-0 z-50">
+    <nav className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-200/50 dark:border-gray-700/50 sticky top-0 z-50">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}
@@ -105,10 +114,10 @@ export default function Navbar() {
                 <ListTodo className="w-6 h-6 text-white" />
               </div>
               <div className="hidden sm:block">
-                <span className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                <span className="text-xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 dark:from-gray-200 dark:to-gray-400 bg-clip-text text-transparent">
                   Todo App
                 </span>
-                <p className="text-xs text-gray-500 -mt-1">Quản lý công việc thông minh</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 -mt-1">Quản lý công việc thông minh</p>
               </div>
             </Link>
           </div>
@@ -151,17 +160,7 @@ export default function Navbar() {
             </button>
 
             {/* Dark Mode Toggle */}
-            <button
-              onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2.5 rounded-xl hover:bg-gray-100 transition-colors group"
-              title="Chế độ tối"
-            >
-              {isDarkMode ? (
-                <Sun className="w-5 h-5 text-gray-600 group-hover:text-yellow-600 transition-colors" />
-              ) : (
-                <Moon className="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors" />
-              )}
-            </button>
+            <DarkModeToggle />
           </div>
 
           {/* User Menu - Desktop */}
@@ -303,7 +302,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200/50 py-4 bg-white/95 backdrop-blur-md">
+          <div className="md:hidden border-t border-gray-200/50 dark:border-gray-700/50 py-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md">
             {/* Mobile Search & Actions */}
             <div className="flex items-center space-x-3 px-4 mb-4">
               <button className="flex-1 flex items-center space-x-2 px-3 py-2 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors">
@@ -313,16 +312,7 @@ export default function Navbar() {
               <button className="p-2 rounded-xl hover:bg-gray-100 transition-colors">
                 <Bell className="w-5 h-5 text-gray-600" />
               </button>
-              <button 
-                onClick={() => setIsDarkMode(!isDarkMode)}
-                className="p-2 rounded-xl hover:bg-gray-100 transition-colors"
-              >
-                {isDarkMode ? (
-                  <Sun className="w-5 h-5 text-gray-600" />
-                ) : (
-                  <Moon className="w-5 h-5 text-gray-600" />
-                )}
-              </button>
+              <DarkModeToggle size="sm" />
             </div>
 
             {/* Mobile Navigation Links */}

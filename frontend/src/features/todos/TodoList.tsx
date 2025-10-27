@@ -172,40 +172,40 @@ export default function TodoList() {
   const renderTableView = () => (
     <div className="overflow-x-auto">
       <table className="w-full">
-        <thead className="bg-gray-50 border-b">
+        <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Tiêu đề
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Trạng thái
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Độ ưu tiên
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Danh mục
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Hạn hoàn thành
             </th>
-            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Thao tác
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
           {todos.map((todo) => (
               <tr
                 key={todo.id}
                 onClick={() => navigate(`/todos/${todo.id}`)}
-                className="hover:bg-gray-50 cursor-pointer transition-colors"
+                className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
               >
                 <td className="px-6 py-4">
                   <div className="flex flex-col">
-                    <div className="text-sm font-medium text-gray-900">{todo.title}</div>
+                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{todo.title}</div>
                     {todo.description && (
-                      <div className="text-sm text-gray-500 truncate max-w-md">
+                      <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-md">
                         {todo.description}
                       </div>
                     )}
@@ -214,7 +214,7 @@ export default function TodoList() {
                         {todo.tags.map((tag) => (
                           <span
                             key={tag.id}
-                            className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-800"
+                            className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
                           >
                             {tag.name}
                           </span>
@@ -403,12 +403,12 @@ export default function TodoList() {
           {/* Main Content */}
           <div className={showFilter ? 'lg:col-span-3' : 'lg:col-span-4'}>
             {/* Toolbar */}
-            <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 mb-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <button
                     onClick={() => setShowFilter(!showFilter)}
-                    className="px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                    className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
                     {showFilter ? 'Ẩn' : 'Hiện'} bộ lọc
                   </button>
@@ -417,8 +417,8 @@ export default function TodoList() {
                       onClick={() => setViewMode('table')}
                       className={`p-2 rounded-md ${
                         viewMode === 'table'
-                          ? 'bg-blue-100 text-blue-600'
-                          : 'text-gray-600 hover:bg-gray-100'
+                          ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
+                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                     >
                       <ListIcon className="w-5 h-5" />
@@ -427,29 +427,29 @@ export default function TodoList() {
                       onClick={() => setViewMode('cards')}
                       className={`p-2 rounded-md ${
                         viewMode === 'cards'
-                          ? 'bg-blue-100 text-blue-600'
-                          : 'text-gray-600 hover:bg-gray-100'
+                          ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
+                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                     >
                       <LayoutGrid className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
-                <div className="text-sm text-gray-600">
+                <div className="text-sm text-gray-600 dark:text-gray-400">
                   Tổng: <span className="font-semibold">{totalElements}</span> todos
                 </div>
               </div>
             </div>
 
             {/* Todo List */}
-            <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
               {isLoading ? (
                 <div className="flex items-center justify-center py-12">
                   <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
                 </div>
               ) : todos.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-gray-500">Không có todo nào</p>
+                  <p className="text-gray-500 dark:text-gray-400">Không có todo nào</p>
                 </div>
               ) : (
                 <>
@@ -457,23 +457,23 @@ export default function TodoList() {
                   
                   {/* Pagination */}
                   {totalPages > 1 && (
-                    <div className="border-t px-6 py-4">
+                    <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4">
                       <div className="flex items-center justify-between">
-                        <div className="text-sm text-gray-700">
+                        <div className="text-sm text-gray-700 dark:text-gray-300">
                           Trang <span className="font-medium">{currentPage + 1}</span> / <span className="font-medium">{totalPages}</span>
                         </div>
                         <div className="flex gap-2">
                           <button
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 0}
-                            className="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             <ChevronLeft className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage >= totalPages - 1}
-                            className="px-3 py-1 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             <ChevronRight className="w-4 h-4" />
                           </button>

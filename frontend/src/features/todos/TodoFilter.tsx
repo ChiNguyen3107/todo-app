@@ -136,17 +136,17 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
   if (!isOpen) return null;
 
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6 space-y-6">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <FilterIcon className="w-5 h-5 text-gray-600 mr-2" />
-          <h2 className="text-lg font-semibold text-gray-900">Bộ lọc</h2>
+          <FilterIcon className="w-5 h-5 text-gray-600 dark:text-gray-300 mr-2" />
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Bộ lọc</h2>
         </div>
         {onClose && (
           <button
             onClick={onClose}
-            className="p-1 text-gray-400 hover:text-gray-600 rounded-md"
+            className="p-1 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 rounded-md"
           >
             <X className="w-5 h-5" />
           </button>
@@ -155,24 +155,24 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Search */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Tìm kiếm
         </label>
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500" />
           <input
             type="text"
             value={localFilters.keyword || ''}
             onChange={(e) => handleSearchChange(e.target.value)}
             placeholder="Tìm kiếm theo tiêu đề..."
-            className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
       </div>
 
       {/* Status Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Trạng thái
         </label>
         <div className="space-y-2">
@@ -182,9 +182,9 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
                 type="checkbox"
                 checked={localFilters.status === option.value}
                 onChange={() => handleStatusToggle(option.value)}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded focus:ring-blue-500"
               />
-              <span className="ml-2 text-sm text-gray-700">{option.label}</span>
+              <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">{option.label}</span>
             </label>
           ))}
         </div>
@@ -192,7 +192,7 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Priority Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Độ ưu tiên
         </label>
         <div className="space-y-2">
@@ -202,7 +202,7 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
                 type="checkbox"
                 checked={localFilters.priority === option.value}
                 onChange={() => handlePriorityToggle(option.value)}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded focus:ring-blue-500"
               />
               <span className={`ml-2 text-sm font-medium ${option.color}`}>
                 {option.label}
@@ -214,13 +214,13 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Category Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Danh mục
         </label>
         <select
           value={localFilters.categoryId || ''}
           onChange={(e) => handleCategoryChange(e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           <option value="">Tất cả danh mục</option>
           {categories.map((category) => (
@@ -233,12 +233,12 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Tags Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Tags
         </label>
         <div className="space-y-2 max-h-40 overflow-y-auto">
           {tags.length === 0 ? (
-            <p className="text-sm text-gray-500">Chưa có tag nào</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">Chưa có tag nào</p>
           ) : (
             tags.map((tag) => (
               <label key={tag.id} className="flex items-center cursor-pointer">
@@ -246,9 +246,9 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
                   type="checkbox"
                   checked={localFilters.tagIds?.includes(tag.id) || false}
                   onChange={() => handleTagsChange(tag.id)}
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  className="w-4 h-4 text-blue-600 border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded focus:ring-blue-500"
                 />
-                <span className="ml-2 text-sm text-gray-700">{tag.name}</span>
+                <span className="ml-2 text-sm text-gray-700 dark:text-gray-300">{tag.name}</span>
                 {tag.color && (
                   <span
                     className="ml-auto w-4 h-4 rounded-full"
@@ -291,14 +291,14 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Sort Options */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Sắp xếp theo
         </label>
         <div className="space-y-2">
           <select
             value={localFilters.sortBy || 'createdAt'}
             onChange={(e) => handleSortChange(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             {SORT_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -308,7 +308,7 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
           </select>
           <button
             onClick={handleSortDirectionToggle}
-            className="w-full px-3 py-2 text-sm font-medium text-gray-700 bg-gray-50 border border-gray-300 rounded-md hover:bg-gray-100"
+            className="w-full px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600"
           >
             {localFilters.sortDirection === 'asc' ? '↑ Tăng dần' : '↓ Giảm dần'}
           </button>
@@ -316,7 +316,7 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
       </div>
 
       {/* Actions */}
-      <div className="flex gap-2 pt-4 border-t">
+      <div className="flex gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
         <button
           onClick={handleApplyFilters}
           className="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -325,7 +325,7 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
         </button>
         <button
           onClick={handleResetFilters}
-          className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
         >
           Đặt lại
         </button>
