@@ -117,7 +117,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"admin@todo.local\",\n    \"password\": \"Admin@123\"\n}"
+							"raw": "{\n    \"email\": \"{{user_email}}\",\n    \"password\": \"{{user_password}}\"\n}"
 						},
 						"url": {
 							"raw": "{{base_url}}/api/auth/login",
@@ -833,7 +833,7 @@
 	"variable": [
 		{
 			"key": "base_url",
-			"value": "http://localhost:8080",
+			"value": "http://localhost:8081",
 			"type": "string"
 		},
 		{
@@ -844,6 +844,16 @@
 		{
 			"key": "refresh_token",
 			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user_email",
+			"value": "nguoidung@todo.local",
+			"type": "string"
+		},
+		{
+			"key": "user_password",
+			"value": "Pass@123",
 			"type": "string"
 		}
 	]

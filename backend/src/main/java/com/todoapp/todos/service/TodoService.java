@@ -108,9 +108,21 @@ public class TodoService {
         todo.setDescription(request.getDescription());
         todo.setStatus(request.getStatus());
         todo.setPriority(request.getPriority());
-        todo.setDueDate(request.getDueDate());
-        todo.setRemindAt(request.getRemindAt());
-        todo.setEstimatedMinutes(request.getEstimatedMinutes());
+        
+        // Chỉ update due_date nếu được cung cấp trong request
+        if (request.getDueDate() != null) {
+            todo.setDueDate(request.getDueDate());
+        }
+        
+        // Chỉ update remind_at nếu được cung cấp
+        if (request.getRemindAt() != null) {
+            todo.setRemindAt(request.getRemindAt());
+        }
+        
+        // Chỉ update estimated_minutes nếu được cung cấp
+        if (request.getEstimatedMinutes() != null) {
+            todo.setEstimatedMinutes(request.getEstimatedMinutes());
+        }
 
         // Cập nhật category
         if (request.getCategoryId() != null) {
@@ -171,7 +183,15 @@ public class TodoService {
         log.debug("Lấy danh sách todos với phân trang");
 
         User currentUser = getCurrentUser();
-        Page<Todo> todos = todoRepository.findByUserIdAndDeletedAtIsNull(currentUser.getId(), pageable);
+        
+        // Create unsorted pageable to avoid conflict with native query ORDER BY
+        Pageable unsortedPageable = org.springframework.data.domain.PageRequest.of(
+            pageable.getPageNumber(), 
+            pageable.getPageSize()
+        );
+        
+        // Use native query that handles both NULL and '0000-00-00 00:00:00' deleted_at values
+        Page<Todo> todos = todoRepository.findActiveTodosByUserId(currentUser.getId(), unsortedPageable);
 
         log.info("Đã lấy {} todos", todos.getTotalElements());
         return todos.map(this::mapToResponse);
