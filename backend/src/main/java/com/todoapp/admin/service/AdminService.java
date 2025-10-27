@@ -1,6 +1,7 @@
 package com.todoapp.admin.service;
 
 import com.todoapp.admin.dto.AdminDashboardStats;
+import com.todoapp.admin.dto.TodoManagementResponse;
 import com.todoapp.admin.dto.UserManagementResponse;
 import com.todoapp.auth.entity.Role;
 import com.todoapp.auth.entity.User;
@@ -135,16 +136,19 @@ public class AdminService {
         return mapToUserManagementResponse(savedUser);
     }
 
-    public Page<Todo> getAllTodos(Pageable pageable, String search) {
+    public Page<TodoManagementResponse> getAllTodos(Pageable pageable, String search) {
         log.info("Getting all todos with pagination - page: {}, size: {}, search: {}", 
                 pageable.getPageNumber(), pageable.getPageSize(), search);
 
+        Page<Todo> todos;
         if (search != null && !search.trim().isEmpty()) {
-            return todoRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+            todos = todoRepository.findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
                     search, pageable);
         } else {
-            return todoRepository.findAll(pageable);
+            todos = todoRepository.findAll(pageable);
         }
+
+        return todos.map(this::mapToTodoManagementResponse);
     }
 
     public List<Category> getAllCategories() {
@@ -159,11 +163,15 @@ public class AdminService {
 
     @Transactional
     public void deleteTodo(Long todoId) {
-        log.info("Deleting todo with ID: {}", todoId);
-        if (!todoRepository.existsById(todoId)) {
-            throw new RuntimeException("Todo not found with id: " + todoId);
-        }
-        todoRepository.deleteById(todoId);
+        log.info("Soft deleting todo with ID: {}", todoId);
+        Todo todo = todoRepository.findById(todoId)
+                .orElseThrow(() -> new RuntimeException("Todo not found with id: " + todoId));
+        
+        // Soft delete instead of hard delete
+        todo.setDeletedAt(LocalDateTime.now());
+        todoRepository.save(todo);
+        
+        log.info("Successfully soft deleted todo with ID: {}", todoId);
     }
 
     @Transactional
@@ -207,6 +215,39 @@ public class AdminService {
                 .pendingTodos(pendingTodos)
                 .totalCategories(totalCategories)
                 .totalTags(totalTags)
+                .build();
+    }
+
+    private TodoManagementResponse mapToTodoManagementResponse(Todo todo) {
+        User user = todo.getUser();
+        Category category = todo.getCategory();
+        Todo parent = todo.getParent();
+
+        return TodoManagementResponse.builder()
+                .id(todo.getId())
+                .title(todo.getTitle())
+                .description(todo.getDescription())
+                .status(todo.getStatus())
+                .priority(todo.getPriority())
+                .dueDate(todo.getDueDate())
+                .remindAt(todo.getRemindAt())
+                .estimatedMinutes(todo.getEstimatedMinutes())
+                .createdAt(todo.getCreatedAt())
+                .updatedAt(todo.getUpdatedAt())
+                .deletedAt(todo.getDeletedAt())
+                .userId(user != null ? user.getId() : null)
+                .userEmail(user != null ? user.getEmail() : null)
+                .userFullName(user != null ? user.getFullName() : null)
+                .userRole(user != null ? user.getRole() : null)
+                .userStatus(user != null ? user.getStatus() : null)
+                .categoryId(category != null ? category.getId() : null)
+                .categoryName(category != null ? category.getName() : null)
+                .categoryColor(category != null ? category.getColor() : null)
+                .parentId(parent != null ? parent.getId() : null)
+                .parentTitle(parent != null ? parent.getTitle() : null)
+                .subtaskCount(todo.getSubtasks() != null ? todo.getSubtasks().size() : 0)
+                .attachmentCount(todo.getAttachments() != null ? todo.getAttachments().size() : 0)
+                .tagCount(todo.getTags() != null ? todo.getTags().size() : 0)
                 .build();
     }
 }

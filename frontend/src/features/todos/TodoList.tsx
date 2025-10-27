@@ -1,21 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Plus,
   Edit,
   Trash2,
   Calendar,
   Tag as TagIcon,
   Folder,
-  LayoutGrid,
-  List as ListIcon,
-  ChevronLeft,
-  ChevronRight,
   Loader2,
   CheckCircle2,
   Circle,
   Clock,
   XCircle,
+  Table,
+  List,
+  Grid3X3,
+  CheckSquare
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
@@ -26,7 +25,7 @@ import TodoForm from './TodoForm';
 import Layout from '../../components/Layout';
 import type { Todo, TodoStatus, TodoPriority } from '../../types';
 
-type ViewMode = 'table' | 'cards';
+type ViewMode = 'table' | 'modern' | 'cards';
 
 const STATUS_CONFIG: Record<TodoStatus, { label: string; icon: typeof Circle; color: string }> = {
   PENDING: { label: 'Chờ xử lý', icon: Circle, color: 'text-gray-500' },
@@ -59,11 +58,12 @@ export default function TodoList() {
   } = useTodoStore();
 
   const [viewMode, setViewMode] = useState<ViewMode>('table');
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [showFilter, setShowFilter] = useState(true);
-  const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [page, setPage] = useState(1);
+  const [itemsPerPage] = useState(10);
 
   // Load initial data
   useEffect(() => {
@@ -101,7 +101,7 @@ export default function TodoList() {
 
   const loadTodos = async () => {
     try {
-      setIsLoading(true);
+      setLoading(true);
       const response = await todoApi.search(filters);
       setTodos(response.data.content);
       setPagination(response.data.totalPages, response.data.totalElements, response.data.page);
@@ -109,14 +109,10 @@ export default function TodoList() {
       console.error('Error loading todos:', error);
       showToast('Không thể tải danh sách todos', 'error');
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
-
-  const handlePageChange = (page: number) => {
-    setFilters({ page });
-  };
 
   const handleDeleteTodo = async (id: number) => {
     if (!window.confirm('Bạn có chắc chắn muốn xóa todo này?')) {
@@ -170,26 +166,26 @@ export default function TodoList() {
   };
 
   const renderTableView = () => (
-    <div className="overflow-x-auto">
-      <table className="w-full">
+    <div className="w-full">
+      <table className="w-full table-fixed">
         <thead className="bg-gray-50 dark:bg-gray-700 border-b border-gray-200 dark:border-gray-600">
           <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            <th className="w-2/5 px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Tiêu đề
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            <th className="w-1/6 px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden sm:table-cell">
               Trạng thái
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-              Độ ưu tiên
+            <th className="w-1/6 px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden md:table-cell">
+              Ưu tiên
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            <th className="w-1/6 px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden lg:table-cell">
               Danh mục
             </th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            <th className="w-1/6 px-2 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider hidden xl:table-cell">
               Hạn hoàn thành
             </th>
-            <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+            <th className="w-1/6 px-2 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
               Thao tác
             </th>
           </tr>
@@ -201,29 +197,39 @@ export default function TodoList() {
                 onClick={() => navigate(`/todos/${todo.id}`)}
                 className="hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer transition-colors"
               >
-                <td className="px-6 py-4">
+                <td className="px-4 py-3">
                   <div className="flex flex-col">
-                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{todo.title}</div>
+                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">{todo.title}</div>
                     {todo.description && (
-                      <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-md">
+                      <div className="text-xs text-gray-500 dark:text-gray-400 truncate">
                         {todo.description}
                       </div>
                     )}
+                    {/* Mobile info - hiển thị trên màn hình nhỏ */}
+                    <div className="flex items-center gap-2 mt-1 sm:hidden">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${PRIORITY_CONFIG[todo.priority].badge}`}>
+                        {PRIORITY_CONFIG[todo.priority].label}
+                      </span>
+                      <span className="text-xs text-gray-500 dark:text-gray-400">{STATUS_CONFIG[todo.status].label}</span>
+                    </div>
                     {todo.tags && todo.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {todo.tags.map((tag) => (
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {todo.tags.slice(0, 2).map((tag) => (
                           <span
                             key={tag.id}
-                            className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                            className="inline-flex items-center px-1.5 py-0.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
                           >
                             {tag.name}
                           </span>
                         ))}
+                        {todo.tags.length > 2 && (
+                          <span className="text-xs text-gray-500 dark:text-gray-400">+{todo.tags.length - 2}</span>
+                        )}
                       </div>
                     )}
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-2 py-3 whitespace-nowrap hidden sm:table-cell">
                   <select
                     value={todo.status}
                     onChange={(e) => {
@@ -240,35 +246,35 @@ export default function TodoList() {
                     ))}
                   </select>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${PRIORITY_CONFIG[todo.priority].badge}`}>
+                <td className="px-2 py-3 whitespace-nowrap hidden md:table-cell">
+                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${PRIORITY_CONFIG[todo.priority].badge}`}>
                     {PRIORITY_CONFIG[todo.priority].label}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-2 py-3 whitespace-nowrap hidden lg:table-cell">
                   {todo.category ? (
-                    <div className="flex items-center text-sm text-gray-900">
-                      <Folder className="w-4 h-4 mr-1" style={{ color: todo.category.color || '#6B7280' }} />
-                      {todo.category.name}
+                    <div className="flex items-center text-xs text-gray-900 dark:text-gray-100">
+                      <Folder className="w-3 h-3 mr-1 flex-shrink-0" style={{ color: todo.category.color || '#6B7280' }} />
+                      <span className="truncate">{todo.category.name}</span>
                     </div>
                   ) : (
-                    <span className="text-sm text-gray-400">-</span>
+                    <span className="text-xs text-gray-400 dark:text-gray-500">-</span>
                   )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="flex items-center text-sm text-gray-900">
-                    <Calendar className="w-4 h-4 mr-1 text-gray-400" />
-                    {formatDate(todo.dueDate)}
+                <td className="px-2 py-3 whitespace-nowrap hidden xl:table-cell">
+                  <div className="flex items-center text-xs text-gray-900 dark:text-gray-100">
+                    <Calendar className="w-3 h-3 mr-1 text-gray-400 dark:text-gray-500 flex-shrink-0" />
+                    <span className="truncate">{formatDate(todo.dueDate)}</span>
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td className="px-2 py-3 whitespace-nowrap text-right text-sm font-medium">
                   <div className="flex justify-end gap-2">
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         setEditingTodo(todo);
                       }}
-                      className="text-blue-600 hover:text-blue-900"
+                      className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
                       title="Chỉnh sửa"
                     >
                       <Edit className="w-4 h-4" />
@@ -278,15 +284,10 @@ export default function TodoList() {
                         e.stopPropagation();
                         handleDeleteTodo(todo.id);
                       }}
-                      disabled={deletingId === todo.id}
-                      className="text-red-600 hover:text-red-900 disabled:opacity-50"
+                      className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
                       title="Xóa"
                     >
-                      {deletingId === todo.id ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
                         <Trash2 className="w-4 h-4" />
-                      )}
                     </button>
                   </div>
                 </td>
@@ -298,25 +299,24 @@ export default function TodoList() {
   );
 
   const renderCardsView = () => (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {todos.map((todo) => {
-        return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
+      {todos.map((todo) => (
           <div
             key={todo.id}
             onClick={() => navigate(`/todos/${todo.id}`)}
-            className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+          className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:shadow-md dark:hover:shadow-lg transition-shadow cursor-pointer"
           >
             <div className="flex items-start justify-between mb-3">
-              <h3 className="text-lg font-semibold text-gray-900 flex-1">
+            <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 flex-1 truncate">
                 {todo.title}
               </h3>
-              <div className="flex gap-2 ml-2">
+            <div className="flex gap-1 ml-2 flex-shrink-0">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     setEditingTodo(todo);
                   }}
-                  className="text-blue-600 hover:text-blue-900"
+                className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-1"
                 >
                   <Edit className="w-4 h-4" />
                 </button>
@@ -326,7 +326,7 @@ export default function TodoList() {
                     handleDeleteTodo(todo.id);
                   }}
                   disabled={deletingId === todo.id}
-                  className="text-red-600 hover:text-red-900"
+                className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 p-1"
                 >
                   {deletingId === todo.id ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -338,7 +338,7 @@ export default function TodoList() {
             </div>
 
             {todo.description && (
-              <p className="text-sm text-gray-600 mb-3 line-clamp-2">
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
                 {todo.description}
               </p>
             )}
@@ -348,90 +348,224 @@ export default function TodoList() {
                 const StatusIcon = STATUS_CONFIG[todo.status].icon;
                 return <StatusIcon className={`w-4 h-4 ${STATUS_CONFIG[todo.status].color}`} />;
               })()}
-              <span className="text-sm text-gray-700">{STATUS_CONFIG[todo.status].label}</span>
+            <span className="text-sm text-gray-700 dark:text-gray-300">{STATUS_CONFIG[todo.status].label}</span>
               <span className={`ml-auto px-2 py-0.5 text-xs font-medium rounded-full ${PRIORITY_CONFIG[todo.priority].badge}`}>
                 {PRIORITY_CONFIG[todo.priority].label}
               </span>
             </div>
 
             {todo.category && (
-              <div className="flex items-center text-sm text-gray-600 mb-2">
-                <Folder className="w-4 h-4 mr-1" style={{ color: todo.category.color || '#6B7280' }} />
-                {todo.category.name}
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-2">
+              <Folder className="w-4 h-4 mr-1 flex-shrink-0" style={{ color: todo.category.color || '#6B7280' }} />
+              <span className="truncate">{todo.category.name}</span>
               </div>
             )}
 
             {todo.dueDate && (
-              <div className="flex items-center text-sm text-gray-600 mb-3">
-                <Calendar className="w-4 h-4 mr-1" />
-                {formatDate(todo.dueDate)}
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-3">
+              <Calendar className="w-4 h-4 mr-1 flex-shrink-0" />
+              <span className="truncate">{formatDate(todo.dueDate)}</span>
               </div>
             )}
 
             {todo.tags && todo.tags.length > 0 && (
               <div className="flex flex-wrap gap-1">
-                {todo.tags.map((tag) => (
+              {todo.tags.slice(0, 3).map((tag) => (
+                <span
+                  key={tag.id}
+                  className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200"
+                >
+                  <TagIcon className="w-3 h-3 mr-1" />
+                  {tag.name}
+                </span>
+              ))}
+              {todo.tags.length > 3 && (
+                <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300">
+                  +{todo.tags.length - 3}
+                </span>
+              )}
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+
+  const renderModernListView = () => (
+    <div className="space-y-3">
+      {todos.map((todo) => (
+        <div
+          key={todo.id}
+          onClick={() => navigate(`/todos/${todo.id}`)}
+          className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 hover:shadow-lg dark:hover:shadow-xl transition-all duration-200 cursor-pointer group"
+        >
+          <div className="flex items-start justify-between">
+            {/* Main Content */}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start gap-3">
+                {/* Priority Indicator */}
+                <div className={`w-1 h-12 rounded-full ${PRIORITY_CONFIG[todo.priority].badge.replace('text-', 'bg-').replace('-600', '-500')} flex-shrink-0`}></div>
+                
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {todo.title}
+                    </h3>
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${PRIORITY_CONFIG[todo.priority].badge}`}>
+                      {PRIORITY_CONFIG[todo.priority].label}
+                    </span>
+                  </div>
+                  
+                  {todo.description && (
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2">
+                      {todo.description}
+                    </p>
+                  )}
+                  
+                  {/* Meta Information */}
+                  <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+                    {/* Status */}
+                    <div className="flex items-center gap-1">
+                      {(() => {
+                        const StatusIcon = STATUS_CONFIG[todo.status].icon;
+                        return <StatusIcon className={`w-3 h-3 ${STATUS_CONFIG[todo.status].color}`} />;
+                      })()}
+                      <span>{STATUS_CONFIG[todo.status].label}</span>
+                    </div>
+                    
+                    {/* Category */}
+                    {todo.category && (
+                      <div className="flex items-center gap-1">
+                        <Folder className="w-3 h-3" style={{ color: todo.category.color || '#6B7280' }} />
+                        <span className="truncate">{todo.category.name}</span>
+                      </div>
+                    )}
+                    
+                    {/* Due Date */}
+                    {todo.dueDate && (
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-3 h-3" />
+                        <span>{formatDate(todo.dueDate)}</span>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Tags */}
+                  {todo.tags && todo.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mt-2">
+                      {todo.tags.slice(0, 3).map((tag) => (
                   <span
                     key={tag.id}
-                    className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 text-gray-800"
+                          className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300"
                   >
                     <TagIcon className="w-3 h-3 mr-1" />
                     {tag.name}
                   </span>
                 ))}
+                      {todo.tags.length > 3 && (
+                        <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium rounded-full bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400">
+                          +{todo.tags.length - 3}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-            )}
+            </div>
+            
+            {/* Actions */}
+            <div className="flex items-center gap-1 ml-4 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setEditingTodo(todo);
+                }}
+                className="p-2 text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                title="Chỉnh sửa"
+              >
+                <Edit className="w-4 h-4" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDeleteTodo(todo.id);
+                }}
+                disabled={deletingId === todo.id}
+                className="p-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors disabled:opacity-50"
+                title="Xóa"
+              >
+                {deletingId === todo.id ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Trash2 className="w-4 h-4" />
+                )}
+              </button>
+            </div>
           </div>
-        );
-      })}
+        </div>
+      ))}
     </div>
   );
 
   return (
     <Layout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Header */}
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
           {/* Filter Sidebar */}
           {showFilter && (
-            <div className="lg:col-span-1">
+            <div className="xl:col-span-1 order-2 xl:order-1">
               <TodoFilter onFilterChange={loadTodos} />
             </div>
           )}
 
           {/* Main Content */}
-          <div className={showFilter ? 'lg:col-span-3' : 'lg:col-span-4'}>
+          <div className={`${showFilter ? 'xl:col-span-3' : 'xl:col-span-4'} order-1 xl:order-2`}>
             {/* Toolbar */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 mb-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 mb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div className="flex items-center gap-3">
                   <button
                     onClick={() => setShowFilter(!showFilter)}
-                    className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
+                    className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors"
                   >
                     {showFilter ? 'Ẩn' : 'Hiện'} bộ lọc
                   </button>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
                     <button
                       onClick={() => setViewMode('table')}
-                      className={`p-2 rounded-md ${
+                      className={`p-2 rounded-lg transition-colors ${
                         viewMode === 'table'
-                          ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
-                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
+                          : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
+                      title="Chế độ bảng"
                     >
-                      <ListIcon className="w-5 h-5" />
+                      <Table className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('modern')}
+                      className={`p-2 rounded-lg transition-colors ${
+                        viewMode === 'modern'
+                          ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
+                          : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                      }`}
+                      title="Chế độ danh sách hiện đại"
+                    >
+                      <List className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => setViewMode('cards')}
-                      className={`p-2 rounded-md ${
+                      className={`p-2 rounded-lg transition-colors ${
                         viewMode === 'cards'
-                          ? 'bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400'
-                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
+                          : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
+                      title="Chế độ thẻ"
                     >
-                      <LayoutGrid className="w-5 h-5" />
+                      <Grid3X3 className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -441,73 +575,66 @@ export default function TodoList() {
               </div>
             </div>
 
-            {/* Todo List */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-              {isLoading ? (
+            {/* Content */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+              {loading ? (
                 <div className="flex items-center justify-center py-12">
-                  <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                  <Loader2 className="w-8 h-8 animate-spin text-primary-600 dark:text-primary-400" />
+                  <span className="ml-2 text-gray-600 dark:text-gray-400">Đang tải...</span>
                 </div>
               ) : todos.length === 0 ? (
                 <div className="text-center py-12">
-                  <p className="text-gray-500 dark:text-gray-400">Không có todo nào</p>
+                  <div className="text-gray-400 dark:text-gray-500 mb-4">
+                    <CheckSquare className="w-12 h-12 mx-auto" />
+                  </div>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">Chưa có todo nào</h3>
+                  <p className="text-gray-500 dark:text-gray-400 mb-4">Hãy tạo todo đầu tiên của bạn!</p>
+                  <button
+                    onClick={() => setEditingTodo({} as Todo)}
+                    className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium rounded-lg transition-colors"
+                  >
+                    Tạo todo
+                  </button>
                 </div>
               ) : (
-                <>
-                  {viewMode === 'table' ? renderTableView() : renderCardsView()}
-                  
-                  {/* Pagination */}
-                  {totalPages > 1 && (
-                    <div className="border-t border-gray-200 dark:border-gray-700 px-6 py-4">
-                      <div className="flex items-center justify-between">
-                        <div className="text-sm text-gray-700 dark:text-gray-300">
-                          Trang <span className="font-medium">{currentPage + 1}</span> / <span className="font-medium">{totalPages}</span>
-                        </div>
-                        <div className="flex gap-2">
-                          <button
-                            onClick={() => handlePageChange(currentPage - 1)}
-                            disabled={currentPage === 0}
-                            className="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                          >
-                            <ChevronLeft className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handlePageChange(currentPage + 1)}
-                            disabled={currentPage >= totalPages - 1}
-                            className="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                          >
-                            <ChevronRight className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </>
+                <div className="p-4">
+                  {viewMode === 'table' && renderTableView()}
+                  {viewMode === 'cards' && renderCardsView()}
+                  {viewMode === 'modern' && renderModernListView()}
+                </div>
               )}
             </div>
+
+            {/* Pagination */}
+            {todos.length > 0 && (
+              <div className="mt-4 flex items-center justify-between">
+                <div className="text-sm text-gray-700 dark:text-gray-300">
+                  Hiển thị {((currentPage - 1) * itemsPerPage) + 1} - {Math.min(currentPage * itemsPerPage, totalElements)} trong {totalElements} todo
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setPage(page - 1)}
+                    disabled={currentPage === 1}
+                    className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Trước
+                  </button>
+                  <span className="px-3 py-1.5 text-sm text-gray-700 dark:text-gray-300">
+                    {currentPage} / {totalPages}
+                  </span>
+                  <button
+                    onClick={() => setPage(page + 1)}
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-1.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Sau
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-
-      {/* Floating Add Button */}
-      <button
-        onClick={() => setShowCreateModal(true)}
-        className="fixed bottom-8 right-8 p-4 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors"
-        title="Tạo todo mới"
-      >
-        <Plus className="w-6 h-6" />
-      </button>
-
-      {/* Create Modal */}
-      {showCreateModal && (
-        <TodoForm
-          isModal
-          onSuccess={() => {
-            setShowCreateModal(false);
-            loadTodos();
-          }}
-          onCancel={() => setShowCreateModal(false)}
-        />
-      )}
 
       {/* Edit Modal */}
       {editingTodo && (

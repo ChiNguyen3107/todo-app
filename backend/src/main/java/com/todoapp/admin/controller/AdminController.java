@@ -1,9 +1,9 @@
 package com.todoapp.admin.controller;
 
 import com.todoapp.admin.dto.AdminDashboardStats;
+import com.todoapp.admin.dto.TodoManagementResponse;
 import com.todoapp.admin.dto.UserManagementResponse;
 import com.todoapp.admin.service.AdminService;
-import com.todoapp.todos.entity.Todo;
 import com.todoapp.todos.entity.Category;
 import com.todoapp.todos.entity.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -93,7 +93,7 @@ public class AdminController {
     @GetMapping("/todos")
     @Operation(summary = "Get all todos with pagination")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Page<Todo>> getAllTodos(
+    public ResponseEntity<Page<TodoManagementResponse>> getAllTodos(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") String sortBy,
@@ -106,7 +106,7 @@ public class AdminController {
         Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
         Pageable pageable = PageRequest.of(page, size, sort);
         
-        Page<Todo> todos = adminService.getAllTodos(pageable, search);
+        Page<TodoManagementResponse> todos = adminService.getAllTodos(pageable, search);
         
         return ResponseEntity.ok(todos);
     }

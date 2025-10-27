@@ -136,12 +136,12 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
   if (!isOpen) return null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 space-y-6">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 space-y-4 sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <FilterIcon className="w-5 h-5 text-gray-600 dark:text-gray-300 mr-2" />
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Bộ lọc</h2>
+          <FilterIcon className="w-4 h-4 text-gray-600 dark:text-gray-300 mr-2" />
+          <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100">Bộ lọc</h2>
         </div>
         {onClose && (
           <button
@@ -155,7 +155,7 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Search */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Tìm kiếm
         </label>
         <div className="relative">
@@ -172,10 +172,10 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Status Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Trạng thái
         </label>
-        <div className="space-y-2">
+        <div className="space-y-1">
           {STATUS_OPTIONS.map((option) => (
             <label key={option.value} className="flex items-center cursor-pointer">
               <input
@@ -192,10 +192,10 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Priority Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Độ ưu tiên
         </label>
-        <div className="space-y-2">
+        <div className="space-y-1">
           {PRIORITY_OPTIONS.map((option) => (
             <label key={option.value} className="flex items-center cursor-pointer">
               <input
@@ -214,7 +214,7 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Category Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Danh mục
         </label>
         <select
@@ -233,10 +233,10 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Tags Filter */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Tags
         </label>
-        <div className="space-y-2 max-h-40 overflow-y-auto">
+        <div className="space-y-1 max-h-32 overflow-y-auto">
           {tags.length === 0 ? (
             <p className="text-sm text-gray-500 dark:text-gray-400">Chưa có tag nào</p>
           ) : (
@@ -291,10 +291,10 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
 
       {/* Sort Options */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           Sắp xếp theo
         </label>
-        <div className="space-y-2">
+        <div className="space-y-1">
           <select
             value={localFilters.sortBy || 'createdAt'}
             onChange={(e) => handleSortChange(e.target.value)}
@@ -316,7 +316,7 @@ export default function TodoFilter({ onFilterChange, isOpen = true, onClose }: T
       </div>
 
       {/* Actions */}
-      <div className="flex gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+      <div className="flex gap-2 pt-2 border-t border-gray-200 dark:border-gray-700">
         <button
           onClick={handleApplyFilters}
           className="flex-1 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
